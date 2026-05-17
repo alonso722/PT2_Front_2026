@@ -1,0 +1,15 @@
+<div class="progress-container">
+  <div class="progress-wrapper">
+    <div *ngIf="progress >= 33" class="progress-segment segment-1"></div>
+    <div *ngIf="progress >= 66" class="progress-segment segment-2"></div>
+    <div *ngIf="progress === 100 && isApproved" class="progress-segment segment-3-approved"></div>
+    <div *ngIf="progress === 100 && !isApproved" class="progress-segment segment-3-rejected"></div>
+  </div>
+  <nz-progress
+    [nzPercent]="getVisualPercent()"
+    [nzStrokeWidth]="20"
+    nzStatus="active"
+    [nzFormat]="getProgressLabel"
+    [nzShowInfo]="false"
+  ></nz-progress>
+</div>

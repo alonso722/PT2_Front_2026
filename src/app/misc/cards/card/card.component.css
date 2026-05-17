@@ -1,0 +1,350 @@
+html, body {
+  margin: 0;
+  padding: 0;
+  background-color: #3a3b3e;
+}
+
+.custom-container {
+  display: flex;
+  padding: 30px;
+  box-sizing: border-box;
+  gap: 20px;
+  width: 100vw;
+  margin-left: 50px;
+  margin-top: 50px;
+  flex-wrap: wrap;
+  min-height: 100%;
+  background-color: #3a3b3e;
+}
+
+.filters-wrapper {
+  width: 100%;
+  display: flex;
+  gap: 20px;
+  align-items: center;
+  margin-bottom: 20px;
+  padding-left: 5%;
+  flex-wrap: wrap;
+  
+  background-color: #3a3b3e;
+}
+
+.filters-wrapper label {
+  font-weight: bold;
+  color: whitesmoke;
+}
+
+.filters-wrapper select {
+  padding: 6px 10px;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+  background-color: white;
+  color: #333;
+  box-shadow: 4px 6px 10px rgba(0, 0, 0, 0.15); 
+}
+
+.card-container {
+  padding-left: 5%;
+  width: 73%;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 50px;
+  overflow-y: auto;
+  box-sizing: border-box;
+  border-right: 1px solid #3a3b3e; 
+}
+
+.custom-card {
+  flex: 0 0 400px;
+  background: whitesmoke;
+  border-radius: 0 0 12px 12px;
+  border: none;
+  color: #2E3333;
+  padding: 16px;
+  box-sizing: border-box;
+  box-shadow: 15px 15px 40px rgba(0, 0, 0, 0.6);
+}
+
+.custom-card .ant-card-head-title {
+  color: #2E3333;
+  min-width: 250px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.ant-card-head {
+  display: flex !important;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid #888;
+}
+
+.ant-card-extra {
+  margin-left: auto;
+  padding-left: 10px;
+  cursor: pointer;
+  color: #2E3333;
+  font-weight: 600;
+  user-select: none;
+}
+
+.charts-container {
+  width: 25%;
+  display: flex;
+  flex-direction: column;
+  gap: 40px;
+  box-sizing: border-box;
+  padding-left: 10px;
+  padding-bottom: 100px;
+  margin-bottom: 20px;
+  
+  background-color: #3a3b3e;
+}
+
+  .charts-container h3 {
+    font-size: 18px;
+    text-align: center;
+    color: white;
+  }
+
+.charts-container canvas {
+  width: 100% !important;
+  height: auto !important;
+}
+
+.card-container::-webkit-scrollbar,
+.charts-container::-webkit-scrollbar {
+  width: 8px;
+}
+
+.card-container::-webkit-scrollbar-thumb,
+.charts-container::-webkit-scrollbar-thumb {
+  background-color: rgba(0, 0, 0, 0.2);
+  border-radius: 4px;
+}
+
+.custom-modal {
+  border-radius: 12px !important;
+  min-width: 2000px;
+  width: 100%;
+}
+
+.custom-modal .ant-modal-content {
+  border-radius: 12px !important;
+  min-width: 2000px;
+  width: 100%;
+}
+
+.detalle-container {
+  display: flex;
+  justify-content: flex-end;
+  padding-top: 8px;
+}
+
+.detalle-container a {
+  cursor: pointer;
+  color: #2E3333;
+  font-weight: 600;
+  user-select: none;
+  padding-left: 5px;
+  text-decoration: underline;
+}
+
+@media (max-width: 768px) {
+  .custom-container {
+    flex-direction: column;
+    height: auto;
+    padding: 20px;
+  }
+
+  .card-container {
+    width: 100%;
+    padding-left: 50px;
+    max-height: none;
+  }
+
+  .custom-card {
+    flex: 0 0 100%;
+  }
+
+  .filters-wrapper {
+  width: 100%;
+  display: flex;
+  gap: 20px;
+  align-items: center;
+  margin-bottom: 20px;
+  padding-left: 50px;
+  flex-wrap: wrap;
+  box-shadow: 4px 6px 10px rgba(0, 0, 0, 0.15); 
+}
+
+  .charts-container {
+    width: 100%;
+    padding-left: 0;
+    padding-bottom: 20px;
+    margin-bottom: 0;
+  }
+
+  .charts-container canvas {
+    width: 90% !important;
+    max-width: 300px;
+    height: auto !important;
+    margin: 0 auto;
+  }
+
+  .charts-container h3 {
+    font-size: 18px;
+    text-align: center;
+    color: white;
+  }
+}
+
+::ng-deep .custom-card.ant-descriptions-bordered {
+  background-color: #303135 !important;
+  border-radius: 0 0 12px 12px !important;
+  border: none !important;
+  box-shadow: 5px 5px 15px rgba(0, 0, 0, 0.2);
+  overflow: hidden;
+}
+
+::ng-deep .custom-card .ant-descriptions-header {
+  background-color: #40444a !important;
+  color: #ffffff !important;
+  border-radius: 12px 12px 0 0 !important;
+  border-bottom: 1px solid #4a4a4a !important;
+}
+
+::ng-deep .custom-card .ant-descriptions-view {
+  border-radius: 0 0 12px 12px !important;
+  overflow: hidden;
+  border: none !important;
+}
+
+::ng-deep .custom-card .ant-descriptions-row {
+  border-bottom: 1px solid #4a4a4a !important;
+}
+
+::ng-deep .custom-card .ant-descriptions-item-label {
+  background-color: #3a3b3e !important;
+  color: #ffffff !important;
+  font-weight: 500;
+  padding: 12px 16px;
+  border-right: 1px solid #4a4a4a !important;
+}
+
+::ng-deep .custom-card .ant-descriptions-item-content {
+  background-color: #303135 !important;
+  color: #e0e0e0 !important;
+  padding: 12px 16px;
+  border-left: 1px solid #888 !important;
+}
+
+::ng-deep .custom-card .ant-descriptions-item {
+  border: none !important;
+}
+
+::ng-deep .custom-card .ant-descriptions-bordered .ant-descriptions-item {
+  border-right: none !important;
+  border-bottom: none !important;
+}
+
+.custom-modal {
+  background-color: #303135 !important;
+  color: white !important;
+}
+
+.custom-modal .ant-modal-header {
+  background-color: #303135 !important;
+  border-bottom: 1px solid #444;
+  color: white !important;
+}
+
+.custom-modal .ant-modal-title {
+  color: white !important;
+  font-weight: bold;
+}
+
+.custom-modal-body {
+  background-color: #303135 !important;
+  color: white !important;
+}
+
+.custom-modal .ant-modal-footer {
+  background-color: #303135 !important;
+  border-top: 1px solid #444;
+}
+
+:host {
+  display: block;
+}
+
+/* layout simple */
+.charts-grid {
+  display: flex;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+.chart-card {
+  background: transparent;
+  padding: 8px;
+  width: 100%;
+  max-width: 520px;
+}
+.chart-area {
+  position: relative;
+  height: 350px; /* ajusta */
+}
+
+
+:host ::ng-deep .chartjs-legend,
+:host ::ng-deep .chart-legend,
+:host ::ng-deep .ng2-charts .chartjs-legend,
+:host ::ng-deep .ng2-charts-legend,
+:host ::ng-deep ul.chartjs-legend,
+:host ::ng-deep ul.chart-legend,
+:host ::ng-deep .chartjs-legend ul,
+:host ::ng-deep .chartjs-legend li {
+  color: #ffffff !important;
+  fill: #ffffff !important; /* por si el texto es SVG */
+}
+
+/* El texto de los LI (etiquetas) */
+:host ::ng-deep .chartjs-legend li,
+:host ::ng-deep .chart-legend li,
+:host ::ng-deep .ng2-charts-legend li {
+  color: #ffffff !important;
+  opacity: 1 !important;
+  font-weight: 500;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+
+/* El cuadrito de color (span) */
+:host ::ng-deep .chartjs-legend li span,
+:host ::ng-deep .chart-legend li span,
+:host ::ng-deep .ng2-charts-legend li span {
+  display: inline-block !important;
+  width: 18px !important;
+  height: 10px !important;
+  margin-right: 6px !important;
+  border-radius: 2px !important;
+  border: 1px solid rgba(255,255,255,0.18) !important;
+}
+
+/* selectors alternativos (por si Chart.js pone la UL justo después del canvas) */
+:host ::ng-deep canvas + ul.chartjs-legend,
+:host ::ng-deep canvas + .chartjs-legend {
+  color: #ffffff !important;
+}
+
+/* Tooltips */
+:host ::ng-deep .chartjs-tooltip,
+:host ::ng-deep .chartjs-tooltip * {
+  color: #ffffff !important;
+}
+
+/* Fallback global (si aún no aplica, copia estas reglas a src/styles.css sin ::ng-deep) */
+
+

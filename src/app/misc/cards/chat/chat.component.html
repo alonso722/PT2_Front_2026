@@ -1,0 +1,27 @@
+<div class="chat-container">
+  <div class="messages">
+    <ng-container *ngFor="let message of localMessages">
+      <div 
+        class="message" 
+        [ngClass]="{
+          'sent-requester': message.sender === 'requester' && message.sender === userType,
+          'sent-analyst': message.sender === 'analyst' && message.sender === userType,
+          'sent-supervisor': message.sender === 'supervisor' && message.sender === userType,
+          'received-requester': message.sender === 'requester' && message.sender !== userType,
+          'received-analyst': message.sender === 'analyst' && message.sender !== userType,
+          'received-supervisor': message.sender === 'supervisor' && message.sender !== userType
+        }"
+      >
+        <p class="sender-name">
+          {{ getLabel(message.sender) }}: {{ message.nombreCorto || 'Usuario' }}
+        </p>
+        <p class="message-text">{{ message.text }}</p>
+        <span class="timestamp">{{ message.time }}</span>
+      </div>
+    </ng-container>
+  </div>
+  <div class="chat-input">
+    <input nz-input [(ngModel)]="newMessage" placeholder="Escribe el mensaje" />
+    <button nz-button nzType="primary" (click)="sendMessage()">Enviar</button>
+  </div>
+</div>

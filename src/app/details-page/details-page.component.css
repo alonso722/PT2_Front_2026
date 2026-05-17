@@ -1,0 +1,57 @@
+.container {
+  background-color: #3a3b3e;
+  padding-left: 100px;
+  padding-top: 70px;
+}
+
+app-nav-bar {
+  position: relative; 
+  z-index: 10; 
+}
+
+.solicitud-details,
+.solicitud-details h2,
+.solicitud-details h3,
+.solicitud-details p,
+.solicitud-details span,
+.solicitud-details strong {
+  color: white;
+  
+}
+
+button {
+  margin-left: 45%;
+  background-color: #53E3ED !important;
+  color: #303135 !important;
+  border: none !important;
+  border-radius: 8px !important;
+  padding: 2px 20px !important;
+  font-weight: bold;
+  transition: background-color 0.3s ease;
+  width: 150px;
+}
+
+section {
+  background-color: #303135;
+  border-radius: 12px;
+  padding: 16px 24px;
+  margin-bottom: 20px;
+  box-sizing: border-box;
+  box-shadow: 5px 5px 15px rgba(0, 0, 0, 0.2);
+}
+
+.botones-finales,
+.botones-finales button {
+  color: white;
+}
+
+.bullet-badge {
+  display: inline-block;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background-color: #53E3ED;
+  margin-right: 8px;
+  vertical-align: middle;
+}
+

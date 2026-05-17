@@ -1,0 +1,70 @@
+<nz-layout>
+  <nz-header style="position: fixed; top: 0; left: 0; right: 0; height: 64px; background: #001529; color: white; display: flex; align-items: center; padding: 0 16px; z-index: 1100;">
+    
+    <span
+      style="cursor: pointer; margin-left: 15px;"
+      (click)="toggleCollapsed()"
+    >
+      <i nz-icon [nzType]="isCollapsed ? 'menu-unfold' : 'menu-fold'" nzTheme="outline" style="font-size: 20px; color: #53E3ED;"></i>
+    </span>
+
+    <span style="position: absolute; left: 50%; transform: translateX(-50%); font-weight: 600;">
+      {{ getUserTypeSpanish() }}
+    </span>
+
+  </nz-header>
+
+  <nz-sider
+    [nzCollapsed]="isCollapsed"
+    nzTheme="dark"
+    [nzWidth]="200"
+    [nzCollapsedWidth]="80"
+    style="height: 100vh; position: fixed; top: 64px; left: 0; z-index: 1000;"
+  >
+    <ul
+      nz-menu
+      nzTheme="dark"
+      nzMode="inline"
+      [nzInlineCollapsed]="isCollapsed"
+      style="height: 100%; border-right: 0;"
+    >
+      <li nz-menu-item (click)="navigateTo('/dashboard')" title="Inicio">
+        <i nz-icon nzType="home" nzTheme="outline" style="color: #53E3ED; font-size: 18px; margin-right: 10px;"></i>
+        <span *ngIf="!isCollapsed">Inicio</span>
+      </li>
+
+      <li nz-menu-item (click)="navigateTo('/requester-edit')" title="Mi información">
+        <i nz-icon nzType="user" nzTheme="outline" style="color: #53E3ED; font-size: 18px; margin-right: 10px;"></i>
+        <span *ngIf="!isCollapsed">Mi información</span>
+      </li>
+
+      <li 
+        nz-menu-item 
+        (click)="!hasActiveSolicitud && navigateTo('/form')" 
+        [nzDisabled]="hasActiveSolicitud"
+        [title]="hasActiveSolicitud ? 'Ya tiene una solicitud en proceso' : 'Solicitud de crédito'"
+      >
+        <i 
+          nz-icon 
+          nzType="file-text" 
+          nzTheme="outline" 
+          [style.color]="hasActiveSolicitud ? '#888888' : '#53E3ED'" 
+          style="font-size: 18px; margin-right: 10px;"
+        ></i>
+        <span *ngIf="!isCollapsed" [style.color]="hasActiveSolicitud ? '#888888' : ''">
+          Solicitud de crédito
+        </span>
+      </li>
+
+      <li *ngIf="userType === 'supervisor'" nz-menu-item (click)="navigateTo('/sign-staff')" title="Registro de colaboradores">
+        <i nz-icon nzType="team" nzTheme="outline" style="color: #53E3ED; font-size: 18px; margin-right: 10px;"></i>
+        <span *ngIf="!isCollapsed">Registro de colaboradores</span>
+      </li>
+
+      <li nz-menu-item (click)="navigateTo('/login')" title="Salir">
+        <i nz-icon nzType="logout" nzTheme="outline" style="color: #53E3ED; font-size: 18px; margin-right: 10px;"></i>
+        <span *ngIf="!isCollapsed">Salir</span>
+      </li>
+    </ul>
+  </nz-sider>
+</nz-layout>

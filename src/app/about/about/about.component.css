@@ -1,0 +1,44 @@
+
+.outer-container {
+    background-color: #53E3ED ;
+}
+
+.nz-collapse,
+.nz-collapse-panel {
+    background-color: #53E3ED ;
+}
+
+.nz-collapse-panel-content {
+    color: white;
+}
+.custom-card .ant-card-head-title {
+  color: white;
+}
+
+::ng-deep .custom-card .ant-card-head-title {
+  color: white !important;
+}
+
+
+.custom-container {
+    display: flex;
+    justify-content: center; 
+    align-items: center;
+    padding: 30px;
+  }
+  
+  .custom-card {
+    width: 900px;
+    background: #303135;
+    border-radius: 5px;
+    color: aliceblue;
+  }
+  
+  .custom-card .ant-card-head-title {
+    color: white;
+  }
+
+  button.nz-button.primary {
+      background-color: black !important;
+      color: white; 
+  }

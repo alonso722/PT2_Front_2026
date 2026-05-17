@@ -1,0 +1,76 @@
+<div class="custom-container">
+
+  <div class="filters-wrapper">
+    <label for="statusFilter">Estatus:</label>
+    <select id="statusFilter" [(ngModel)]="selectedStatus" (change)="aplicarFiltros()">
+      <option value="">Todos</option>
+      <option *ngFor="let estado of pieLabels" [value]="estado">{{ estado }}</option>
+    </select>
+
+    <label for="creditFilter">Tipo de crédito:</label>
+    <select id="creditFilter" [(ngModel)]="selectedCredit" (change)="aplicarFiltros()">
+      <option value="">Todos</option>
+      <option *ngFor="let tipo of tiposCredito" [value]="tipo">{{ tipo }}</option>
+    </select>
+  </div>
+
+  <div class="card-container">
+    <div *ngIf="!solicitudes || solicitudes.length === 0" class="no-solicitudes">
+      <p style="text-align: center; font-weight: bold; color: aliceblue;">Sin solicitudes a mostrar...</p>
+    </div>
+
+    <div class="progress-bar-wrapper" *ngFor="let solicitud of solicitudes">
+      <app-progress-bar
+        class="progress-bar"
+        [progress]="calculateProgress(solicitud.status)"
+        [status]="solicitud.status">
+      </app-progress-bar>
+
+      <nz-descriptions
+        [nzTitle]="solicitud.title"
+        [nzBordered]="true"
+        [nzColumn]="1"
+        class="custom-card">
+
+        <nz-descriptions-item nzTitle="Crédito con Id">{{ solicitud.id }}</nz-descriptions-item>
+        <nz-descriptions-item nzTitle="Estatus">{{ solicitud.status }}</nz-descriptions-item>
+        <nz-descriptions-item nzTitle="Tipo de crédito">{{ solicitud.creditType }}</nz-descriptions-item>
+        <nz-descriptions-item nzTitle="Fecha de solicitud">
+          {{ solicitud.created_at | date:'dd/MM/yyyy' }}
+        </nz-descriptions-item>
+        <nz-descriptions-item>
+          <div class="detalle-container">
+            <a (click)="showDetails(solicitud)" style="color: azure;">Detalle</a>
+          </div>
+        </nz-descriptions-item>
+
+      </nz-descriptions>
+    </div>
+  </div>
+
+  <div class="charts-container" *ngIf="isBrowser && userType !== 'requester'">
+    <div>
+      <h3 style="text-align: center;">Distribución por Estatus</h3>
+      <div class="chart-area">
+        <canvas
+          baseChart
+          [data]="pieData"
+          [options]="pieOptions"
+          [type]="pieType">
+        </canvas>
+      </div>
+    </div>
+
+    <div>
+      <h3 style="text-align: center;">Solicitudes por Tipo de Crédito</h3>
+      <div class="chart-area">
+        <canvas
+          baseChart
+          [data]="barData"
+          [options]="barOptions"
+          [type]="barType">
+        </canvas>
+      </div>
+    </div>
+  </div>
+</div>

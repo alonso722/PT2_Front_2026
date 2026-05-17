@@ -1,0 +1,15 @@
+* {
+    background-color: #303135 !important;
+}
+
+::ng-deep .ant-menu-item a,
+::ng-deep .ant-menu-submenu-title {
+    color: #53E3ED !important;
+}
+
+
+::ng-deep .ant-menu-item:hover a,
+::ng-deep .ant-menu-item-group-title,
+::ng-deep .ant-menu-submenu-title:hover {
+    color: white !important;
+}

@@ -1,0 +1,182 @@
+<nz-spin [nzSpinning]="loading">
+  <div *ngIf="!loading">
+    <div class="custom-container">
+      <div>
+        <!-- Info general de la solicitud -->
+        <div class="section">
+          <p>
+            <span class="bullet-badge"></span>
+            Credito con Id: <strong>{{ solicitud?.id }}</strong>
+          </p>
+          <p>
+            <span class="bullet-badge"></span>
+            Estatus: <strong>{{ solicitud?.creditStatus }}</strong>
+          </p>
+          <p *ngIf="isSupervisor || isAnalyst">
+            <span class="bullet-badge"></span>
+            Nombre del solicitante:
+            <strong>
+              {{
+                solicitud?.firstname?.split(" ")[0] +
+                  " " +
+                  solicitud?.lastname?.split(" ")[0]
+              }}
+            </strong>
+          </p>
+          <p>
+            <span class="bullet-badge"></span>
+            Fecha de solicitud:
+            <strong>{{ solicitud.created_at | date : "dd/MM/yyyy" }}</strong>
+          </p>
+        </div>
+
+        <div class="section">
+          <p>
+            <span class="bullet-badge"></span>
+            Tipo de crédito: <strong>{{ solicitud?.creditType }}</strong>
+          </p>
+          <p>
+            <span class="bullet-badge"></span>
+            Plazo (meses): <strong>{{ solicitud?.loan_term }}</strong>
+          </p>
+        </div>
+
+        <!-- Botón análisis (solo supervisor/analista) -->
+        <div *ngIf="isSupervisor || isAnalyst">
+          <button
+            (click)="details()"
+            style="
+              background-color: #53E3ED;
+              border: none;
+              color: black;
+              border-radius: 8px;
+              padding: 6px 16px;
+              font-weight: bold;
+              cursor: pointer;
+            "
+          >
+            Análisis
+          </button>
+        </div>
+
+        <!-- Asignar analista y marcar como terminado (solo supervisor) -->
+        <div *ngIf="isSupervisor" style="margin-top: 10px">
+          <label for="analyst">Asignar a analista:</label>
+          <select
+            id="analyst"
+            [(ngModel)]="selectedAnalystId"
+            (change)="assignAnalyst()"
+            style="
+              border-radius: 8px;
+              padding: 6px;
+              width: 100%;
+              margin-top: 5px;
+            "
+          >
+            <option value="" disabled selected>Selecciona un analista</option>
+            <option *ngFor="let analyst of analysts" [value]="analyst.sub">
+              {{ analyst.name }}
+            </option>
+          </select>
+        </div>
+
+        <div *ngIf="isSupervisor" style="margin-top: 10px">
+          <label>
+            <input type="checkbox" [(ngModel)]="isFinished" (change)="requestFinished()" />
+            Crédito terminado
+          </label>
+        </div>
+
+        <!-- Documentos (solo solicitante) -->
+        <div *ngIf="!isSupervisor && !isAnalyst" style="margin-top: 20px">
+          <h3>Documentos</h3>
+
+          <!-- Switch -->
+          <label style="display: flex; align-items: center; gap: 8px; margin-bottom: 12px;">
+            <input type="checkbox" [(ngModel)]="uploadMode" />
+            {{ uploadMode ? "Ver documentos" : "Sustituir documentos cargados" }}
+          </label>
+
+          <!-- Vista de PDFs -->
+          <div *ngIf="!uploadMode" style="display: flex; gap: 24px; flex-wrap: wrap;">
+            <div *ngIf="solicitud?.url_domicile"
+              style="display: flex; flex-direction: column; align-items: center">
+              <img src="assets/pdf.png" alt="PDF" width="40" height="40"
+                style="cursor: pointer"
+                (click)="openInNewTab(solicitud.url_domicile)" />
+              <span>Domicilio</span> 
+            </div>
+
+            <div *ngIf="solicitud?.url_birth"
+              style="display: flex; flex-direction: column; align-items: center">
+              <img src="assets/pdf.png" alt="PDF" width="40" height="40"
+                style="cursor: pointer"
+                (click)="openInNewTab(solicitud.url_birth)" />
+              <span>Acta</span>
+            </div>
+
+            <div *ngIf="solicitud?.url_ine"
+              style="display: flex; flex-direction: column; align-items: center">
+              <img src="assets/pdf.png" alt="PDF" width="40" height="40"
+                style="cursor: pointer"
+                (click)="openInNewTab(solicitud.url_ine)" />
+              <span>INE</span>
+            </div>
+
+            <div *ngIf="solicitud?.url_guarantee"
+              style="display: flex; flex-direction: column; align-items: center">
+              <img src="assets/pdf.png" alt="PDF" width="40" height="40"
+                style="cursor: pointer"
+                (click)="openInNewTab(solicitud.url_guarantee)" />
+              <span>Garantía</span>
+            </div>
+          </div>
+
+          <!-- Vista de formulario de subida -->
+          <div *ngIf="uploadMode" class="document-columns">
+            <div class="form-field">   
+              <div>
+                
+              <label>INE</label>
+              </div>
+              <input type="file" (change)="handleFileChange($event, 'ine')" />
+            </div>
+
+            <div class="form-field">
+              <label>Acta de nacimiento</label>
+
+              <input type="file" (change)="handleFileChange($event, 'birth')" />
+            </div>
+
+            <div class="form-field">
+              <label>Comprobante de domicilio</label>
+              <input type="file" (change)="handleFileChange($event, 'address')" />
+            </div>
+<!-- 
+            <div class="form-field" *ngIf="showGuaranteeDoc">
+              <label>Comprobante de garantía</label>
+              <input type="file" (change)="handleFileChange($event, 'guaranteeDoc')" />
+            </div> -->
+
+            <div class="form-field">
+              <label>Comprobante de ingresos (últimos 3 meses)</label>
+              <input type="file" (change)="handleFileChange($event, 'income')" />
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Chat -->
+      <div>
+        <app-chat
+          [userType]="userTypeFromStorage"
+          [chat]="solicitud?.chat"
+          [id]="solicitud?.id"
+          [nombreCorto]="userName.split(' ')[0]"
+          (messageSent)="onMessageSent()"
+        >
+        </app-chat>
+      </div>
+    </div>
+  </div>
+</nz-spin>

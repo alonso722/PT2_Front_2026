@@ -1,0 +1,284 @@
+<app-nav-bar></app-nav-bar>
+
+<div class="container">
+  <div
+    class="solicitud-details"
+    *ngIf="solicitud"
+    style="padding: 24px; color: white"
+  >
+    <h2>{{ solicitud.title }}</h2>
+
+    <section>
+      <h3>Información general</h3>
+      <p>
+        <span class="bullet-badge"></span>
+        <strong>ID:</strong> {{ solicitud.id }}
+      </p>
+      <p>
+        <span class="bullet-badge"></span>
+        <strong>Estatus:</strong> {{ solicitud.creditStatus }}
+      </p>
+      <p>
+        <span class="bullet-badge"></span>
+        <strong>Nombre del solicitante: </strong>
+        {{
+          solicitud?.firstname?.split(' ')[0] + ' ' +
+          solicitud?.lastname?.split(' ')[0]
+        }}
+      </p>
+      <p>
+        <span class="bullet-badge"></span>
+        <strong>Tipo de crédito:</strong> {{ solicitud.creditType }}
+      </p>
+      <p>
+        <span class="bullet-badge"></span>
+        <strong>Monto solicitado:</strong> ${{ solicitud.amount }}
+      </p>
+      <p>
+        <span class="bullet-badge"></span>
+        <strong>Plazo (Meses):</strong> {{ solicitud.loan_term }} meses
+      </p>
+    </section>
+
+    <section>
+      <h3>Documentos</h3>
+      <div style="display: flex; gap: 24px">
+        <div *ngIf="solicitud?.url_domicile"
+          style="display: flex; flex-direction: column; align-items: center">
+          <img src="assets/pdf.png" alt="PDF" width="40" height="40"
+            style="cursor: pointer"
+            (click)="openInNewTab(solicitud.url_domicile)" />
+          <span>Domicilio</span>
+          <label>
+            <input type="checkbox" [(ngModel)]="documentChecks['domicile']" />
+            Documento correcto
+          </label>
+        </div>
+
+        <div *ngIf="solicitud?.url_birth"
+          style="display: flex; flex-direction: column; align-items: center">
+          <img src="assets/pdf.png" alt="PDF" width="40" height="40"
+            style="cursor: pointer"
+            (click)="openInNewTab(solicitud.url_birth)" />
+          <span>Acta</span>
+          <label>
+            <input type="checkbox" [(ngModel)]="documentChecks['birth']" />
+            Documento correcto
+          </label>
+        </div>
+
+        <div *ngIf="solicitud?.url_ine"
+          style="display: flex; flex-direction: column; align-items: center">
+          <img src="assets/pdf.png" alt="PDF" width="40" height="40"
+            style="cursor: pointer"
+            (click)="openInNewTab(solicitud.url_ine)" />
+          <span>INE</span>
+          <label>
+            <input type="checkbox" [(ngModel)]="documentChecks['ine']" />
+            Documento correcto
+          </label>
+        </div>
+
+        <div *ngIf="solicitud?.url_guarantee"
+          style="display: flex; flex-direction: column; align-items: center">
+          <img src="assets/pdf.png" alt="PDF" width="40" height="40"
+            style="cursor: pointer"
+            (click)="openInNewTab(solicitud.url_guarantee)" />
+          <span>Garantía</span>
+          <label>
+            <input type="checkbox" [(ngModel)]="documentChecks['guarantee']" />
+            Documento correcto
+          </label>
+        </div>
+      </div>
+    </section>
+
+    <section>
+      <h3>Información laboral</h3>
+      <p>
+        <span class="bullet-badge"></span>
+        <strong>Ocupación:</strong> {{ solicitud.occupationType }}
+      </p>
+      <p>
+        <span class="bullet-badge"></span>
+        <strong>Escolaridad:</strong> {{ solicitud.education_level }}
+      </p>
+      <p>
+        <span class="bullet-badge"></span>
+        <strong>Ingreso mensual:</strong> ${{ solicitud.monthly_income }}
+      </p>
+    </section>
+
+    <section>
+      <h3>Relación de esfuerzo</h3>
+
+      <p>
+        <span class="bullet-badge"></span>
+        <strong>Gastos de alimentación:</strong> ${{ gastos.food_expenses }}
+      </p>
+      <p>
+        <span class="bullet-badge"></span>
+        <strong>Gastos de educación:</strong> ${{ gastos.education_expenses }}
+      </p>
+      <p>
+        <span class="bullet-badge"></span>
+        <strong>Gastos de transporte:</strong> ${{ gastos.transport_expenses }}
+      </p>
+      <p>
+        <span class="bullet-badge"></span>
+        <strong>Gastos de servicios:</strong> ${{ gastos.utilities_expenses }}
+      </p>
+      <p>
+        <span class="bullet-badge"></span>
+        <strong>Gastos de salud:</strong> ${{ gastos.health_expenses }}
+      </p>
+      <p>
+        <span class="bullet-badge"></span>
+        <strong>Gastos de mantenimiento:</strong> ${{ gastos.maintenance_expenses }}
+      </p>
+      <p>
+        <span class="bullet-badge"></span>
+        <strong>Gastos de renta:</strong> ${{ gastos.rent_expenses }}
+      </p>
+
+      <p>
+      <span class="bullet-badge"></span>
+      <strong>Gastos totales:</strong> ${{ totalGastos }}
+    </p>
+    <p>
+      <span class="bullet-badge"></span>
+      <strong>Ingreso disponible:</strong> ${{ ingresoDisponible }}
+    </p>
+
+      <p>
+        <span class="bullet-badge"></span>
+        <strong>Mensualidad estimada del crédito]:</strong> ${{
+          solicitud.amount / solicitud.loan_term | number : "1.2-2"
+        }}
+      </p>
+      <p [ngStyle]="{ color: esfuerzoAlto ? '#b98c00' : 'inherit' }">
+        <strong>Relación de esfuerzo:</strong> {{ esfuerzo }}%
+        <span *ngIf="esfuerzoAlto"> ⚠️</span>
+      </p>
+      <p
+        *ngIf="esfuerzoAlto"
+        style="color: #b98c00; font-size: 0.85rem; margin-top: -8px"
+      >
+        Relación de esfuerzo alta
+      </p>
+    </section>
+
+    <section>
+      <h3>Información familiar y patrimonial</h3>
+      <p>
+        <span class="bullet-badge"></span>
+        <strong>Hijos:</strong> {{ solicitud.count_children }}
+      </p>
+      <p>
+        <span class="bullet-badge"></span>
+        <strong>Miembros de la familia:</strong> {{ solicitud.count_family_members }}
+      </p>
+      <p>
+        <span class="bullet-badge"></span>
+        <strong>Tipo de vivienda:</strong> {{ solicitud.hasDomicile }}
+      </p>
+      <p>
+        <span class="bullet-badge"></span>
+        <strong>Vivienda propia:</strong> {{ solicitud.has_own_realty ? "Sí" : "No" }}
+      </p>
+      <p>
+        <span class="bullet-badge"></span>
+        <strong>Garantía:</strong> {{ solicitud.has_guarantee ? "Sí" : "No" }}
+      </p>
+      <p>
+        <span class="bullet-badge"></span>
+        <strong>Valor de la garantía:</strong>
+        {{ solicitud.guarantee_value != null ? solicitud.guarantee_value : 0 }}
+      </p>
+    </section>
+
+    <button
+      (click)="procesarIA()"
+      style="
+        margin-top: 16px;
+        padding: 10px 20px;
+        background-color: #333;
+        color: white;
+        border: none;
+        border-radius: 8px;
+      "
+    >
+      Procesar con IA
+    </button>
+
+    <div
+      *ngIf="iaResultado !== null"
+      style="
+        margin-top: 30px;
+        text-align: center;
+        border-radius: 12px;
+        padding: 20px;
+        max-width: 400px;
+        margin-left: auto;
+        margin-right: auto;
+        background-color: #303135;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+      "
+    >
+      <p style="font-size: 20px; margin-bottom: 10px">
+        <strong>Resultado IA: </strong>
+        <span [style.color]="iaColor">{{ iaResultado }}%</span>
+      </p>
+      <p [style.color]="iaColor" style="font-weight: bold; font-size: 18px">
+        {{ iaMensaje }}
+      </p>
+    </div>
+  </div>
+
+  <div *ngIf="!solicitud" style="padding: 24px; color: white">
+    <p>No se recibió ninguna solicitud.</p>
+  </div>
+
+  <!-- Sección de botones de aprobación/rechazo -->
+  <div
+    *ngIf="iaResultado !== null && iaResultado > 40"
+    style="
+      display: flex;
+      gap: 20px;
+      margin-top: 20px;
+      margin-bottom: 20px;
+      color: white;
+    "
+  >
+    <button
+      *ngIf="iaResultado < 60"
+      (click)="rechazarSolicitud()"
+      style="
+        padding: 10px 20px;
+        border: 2px solid #cc0000;
+        background: transparent;
+        color: #cc0000;
+        border-radius: 8px;
+        font-weight: bold;
+      "
+    >
+      Rechazar solicitud
+    </button>
+
+    <button
+      (click)="aprobarSolicitud()"
+      style="
+        padding: 10px 20px;
+        border: 2px solid #2a8f2a;
+        background: #303135;
+        color: #2a8f2a;
+        border-radius: 8px;
+        font-weight: bold;
+      "
+    >
+      Aprobar solicitud
+    </button>
+  </div>
+
+  <div style="height: 20px"></div>
+</div>

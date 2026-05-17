@@ -1,0 +1,115 @@
+<app-top-menu></app-top-menu>
+<div class="outer-container">
+  <div class="inner-container">
+    <div class="custom-container">
+      <nz-card class="custom-card" [nzBordered]="false" nzTitle="Resumen del proyecto" style="color: aliceblue;">
+        <p>Este sistema web de análisis de riesgos crediticios está diseñado para sistematizar el proceso de evaluación de 
+          solicitudes de crédito financiero, haciendo uso de este sistema para gestionar el registro de los usuarios, su información 
+          socioeconómica y las de sus solicitudes. Utiliza una herramienta de inteligencia artificial que analiza las variables proporcionadas
+          por el solicitante, determina los resultados en función de la detección de patrones de riesgo, es decir, considera las garantías ofrecidas por el 
+          solicitante y determina un resultado, considerando los registros históricos utilizados para el entrenamiento del modelo de la herramienta 
+          de inteligencia artificial. Los usuarios con roles administrativos tienen facultades para asignar las solicitudes a analistas 
+          quienes validan la información de una solicitud así como de quien la solicita, en caso de que la información esté en orden, puede enviar la solicitud
+          a la herramienta de inteligencia artificial para que esta dé su veredicto y en base a esto determinar si la solicitud es aprobada o rechazada</p>
+      </nz-card>
+    </div>
+    <ng-template #extraModulosTemplate>
+      <button nz-button [nzType]="'primary'" (click)="showModal()"><span>Detalles</span></button>
+      <nz-modal [(nzVisible)]="isVisible" nzTitle="Módulos del sistema" (nzOnCancel)="handleCancel()" [nzFooter]="null"  (nzOnOk)="handleOk()">
+        <ng-container *nzModalContent>
+          <section>
+            <h2>Registro de usuarios</h2>
+            <p>
+              El sistema permite el registro de usuarios mediante un formulario dividido en secciones donde se solicitan datos 
+              personales como nombre, RFC, CURP, edad, nivel de estudios, entre otros. También se recaban datos socioeconómicos como 
+              posesiones, entorno familiar y dirección de correo electrónico. Estos datos son validados con reglas específicas para 
+              asegurar su formato correcto. Una vez completado el formulario, se envía un correo de verificación para validar la cuenta 
+              del usuario, lo que garantiza un acceso seguro al sistema.
+            </p>
+          </section>
+          <section>
+            <h2>Solicitud de crédito</h2>
+            <p>
+              Tras el registro y acceso al sistema, el usuario puede generar una solicitud de crédito proporcionando información como 
+              tipo de crédito, plazo, monto, y detalles sobre garantías si las hay. También debe adjuntar documentos PDF válidos como su 
+              INE, acta de nacimiento o comprobante de garantía. El formulario está dividido por secciones y cuenta con restricciones y 
+              validaciones. Una vez enviada correctamente, la solicitud se confirma visualmente y por correo electrónico.
+            </p>
+          </section>
+          <section>
+            <h2>Dashboard o página principal</h2>
+            <p>
+              La vista principal muestra tarjetas con el resumen de las solicitudes del usuario, su estatus y una barra de progreso 
+              que indica el avance del análisis (enviado, en revisión, aprobado o rechazado). Los analistas y supervisores también 
+              visualizan gráficos estadísticos como porcentajes de tipos de créditos solicitados y la distribución de solicitudes según su 
+              estatus. Estas visualizaciones ayudan a entender el comportamiento general del sistema y su carga de trabajo.
+            </p>
+          </section>
+          <section>
+            <h2>Detalle de las solicitudes</h2>
+            <p>
+              Cada tarjeta de solicitud cuenta con un botón "Detalles" que despliega toda la información de la solicitud, incluyendo 
+              los datos del solicitante, información del crédito, laboral, socioeconómica, y relación de esfuerzo. Esta relación se calcula 
+              automáticamente y se destaca visualmente si supera los límites establecidos según el tipo de crédito y la existencia de garantías. 
+              En esta vista también se permite la interacción entre solicitante y analista mediante un chat y funciones específicas según el rol 
+              del usuario (como asignar analistas o iniciar análisis).
+            </p>
+          </section>
+          <section>
+            <h2>Análisis de solicitudes</h2>
+            <p>
+              Los usuarios analistas y supervisores pueden acceder a una vista especial con toda la información de la solicitud 
+              estructurada por secciones, incluyendo un apartado para validar documentos, revisar datos clave y confirmar la viabilidad 
+              del crédito. La herramienta incluye una funcionalidad para enviar la solicitud a la IA para dictaminación, o bien permite 
+              emitir un veredicto humano si la relación de esfuerzo o documentos ya sugieren un resultado claro. También se puede reasignar 
+              solicitudes a otros analistas desde esta sección.
+            </p>
+          </section>
+          <section>
+            <h2>Detección de patrones por medio de una herramienta de inteligencia artificial</h2>
+            <p>
+              La herramienta de inteligencia artificial analiza las variables de cada solicitud previamente entrenada con datos históricos. 
+              Asigna un score numérico entre 0 y 100 que representa la probabilidad de riesgo crediticio, además de una decisión binaria: 
+              aprobado (1) o rechazado (0). Esta decisión se basa en umbrales ajustables. El sistema permite enviar los datos directamente a 
+              esta IA, que devuelve una respuesta utilizada para apoyar o definir la aprobación o rechazo de una solicitud.
+            </p>
+          </section>
+          <section>
+            <h2>Resultados del análisis</h2>
+            <p>
+              El resultado del análisis puede ser consultado desde la plataforma. Si la solicitud es aprobada o rechazada, se notifica al 
+              usuario por correo electrónico con el veredicto. También se pueden visualizar los detalles del análisis dentro del sistema. La plataforma 
+              registra y presenta de manera ordenada todas las solicitudes y sus decisiones, permitiendo transparencia y trazabilidad de cada proceso. 
+              Además, si la IA sugiere una decisión intermedia o ambigua, la plataforma contempla la intervención manual del supervisor o analista.
+            </p>
+          </section>
+        </ng-container>
+      </nz-modal>
+    </ng-template>
+    <div class="custom-container">
+      <nz-card class="custom-card" [nzBordered]="false" nzTitle="Módulos del proyecto" [nzExtra]="extraModulosTemplate">
+        <p>Registro de usuarios</p>
+        <p>Solicitud de crédito</p>
+        <p>Dashboard o página principal</p>
+        <p>Detalle de las solicitudes</p>
+        <p>Análisis de solicitudes</p>
+        <p>Detección de patrones por medio de una herramienta de inteligencia artificial</p>
+        <p>Resultados del análisis</p>
+      </nz-card>
+    </div>
+    <div class="custom-container">
+      <nz-card class="custom-card" [nzBordered]="false" nzTitle="Resultados">
+        <p>Resumen de resultados</p>
+        <p>El sistema web desarrollado permite gestionar el proceso completo de análisis de solicitudes de crédito mediante
+            una plataforma que integra frontend, backend y una herramienta de inteligencia artificial. Esta herramienta analiza los datos
+            personales y socioeconómicos de cada solicitante, asignando un nivel de riesgo y una decisión binaria (aprobado/rechazado)
+            con base en umbrales predefinidos. La plataforma permite registrar usuarios, generar solicitudes, subir documentación, 
+            calcular automáticamente la relación de esfuerzo y visualizar todo el proceso desde interfaces diferenciadas según el rol 
+            del usuario (solicitante, analista o supervisor). Además, cada solicitud puede ser enviada a la herramienta de inteligencia
+            artificial para su dictaminación, y el sistema notifica por correo electrónico los resultados finales, garantizando trazabilidad, 
+            validaciones de datos y una 
+            experiencia centralizada y automatizada para el análisis crediticio.</p>
+      </nz-card>
+    </div>
+  </div>
+</div>

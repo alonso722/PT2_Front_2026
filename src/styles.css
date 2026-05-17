@@ -1,0 +1,58 @@
+.custom-modal .ant-modal {
+  width: 900px !important; 
+  max-width: 90vw; 
+}
+
+@media (max-width: 768px) {
+  .custom-modal .ant-modal {
+    width: 95vw !important;
+  }
+}
+
+.custom-modal .ant-modal-content {
+  background-color: #303135 !important;
+  color: white !important;
+  padding-top: 5px;
+  border-radius: 16px !important; 
+  overflow: hidden;
+}
+
+.custom-modal .ant-modal-header {
+  background-color: #303135 !important;
+  border-bottom: 1px solid #444 !important;
+  color: white !important;
+}
+
+.custom-modal .ant-modal-title {
+  color: white !important;
+  font-weight: 600;
+  font-size: 18px;
+}
+
+.custom-modal .ant-modal-close {
+  color: white !important;
+}
+
+.custom-modal .ant-modal-close-x {
+  color: white !important;
+  font-size: 18px;
+}
+
+.custom-modal .ant-modal-body {
+  background-color: #303135 !important;
+  color: white !important;
+  padding: 24px;
+}
+
+.custom-modal .ant-modal-footer {
+  background-color: #303135 !important;
+  border-top: 1px solid #444 !important;
+}
+
+.ant-message {
+  z-index: 99999 !important;
+}
+
+:host ::ng-deep .chartjs-render-monitor .legend text {
+  fill: white !important;
+}

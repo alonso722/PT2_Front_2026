@@ -1,0 +1,128 @@
+
+  .login-form-forgot {
+    float: right;
+  }
+  
+  .login-form-item {
+    margin-bottom: 16px; 
+  }
+ 
+  .login-form-button {
+    width: 30%;
+    margin-top: 16px; 
+    background-color: black;
+    color: white;
+    border-radius: 15px;
+    border: 0px;
+  }
+  
+  html, body {
+    margin: 0;
+  }
+  
+  .login-form-forgot {
+    color: black; 
+  }
+  
+  .container {
+    display: flex;
+    height: 100%;
+  }
+  
+  .login-form,
+  .content {
+    flex: 1;
+    display: flex;
+    justify-content: center; 
+    align-items: center; 
+    flex-direction: column; 
+  }
+  
+  .login-form {
+    max-width: 50%;
+    background-color: #53E3ED;
+    border: 0px solid grey;
+    padding: 20px;
+  }
+  
+  .content {
+    max-width: 50%;
+    padding: 20px;
+    background-color: #303135;
+    color: white;
+  }
+  .content h1 {
+    color: white; 
+  }
+  
+  @media (max-width: 768px) {
+  .content {
+    display: none;
+  }
+
+  .login-form {
+    max-width: 100% !important;
+  }
+}
+
+.custom-recover-btn {
+  color: white;
+  border: 2px solid white;
+  border-radius: 20px;
+  background-color: transparent;
+  transition: all 0.3s ease;
+}
+
+.custom-recover-btn:hover {
+  background-color: white;
+  color: #6DE3F2;
+  border-color: white;
+}
+
+.modal-form {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  width: 100%;
+  max-width: 400px;
+  margin: 0 auto;
+}
+
+.modal-input {
+  border-radius: 12px !important;
+  padding: 10px 14px;
+  border: 1px solid #d9d9d9;
+  transition: border-color 0.3s ease;
+  width: 100%;
+  box-sizing: border-box;
+  margin-bottom: 8px;
+}
+
+.modal-input:focus {
+  border-color: #53E3ED !important;
+  box-shadow: 0 0 5px rgba(244, 58, 73, 0.5);
+  outline: none;
+}
+
+.modal-button {
+  border-radius: 20px !important;
+  background-color: #53E3ED !important;
+  border: none !important;
+  color: white !important;
+  font-weight: 600;
+  padding: 5px 0;
+  width: 100%;
+  transition: background-color 0.3s ease;
+  cursor: pointer;
+}
+
+.modal-button:disabled {
+  background-color: #53E3ED !important;
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.modal-button:not(:disabled):hover {
+  background-color: #d7313f !important;
+  color: white !important;
+}

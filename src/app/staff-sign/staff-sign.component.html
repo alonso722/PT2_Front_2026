@@ -1,0 +1,151 @@
+<app-nav-bar></app-nav-bar>
+
+<div class="container">
+  <div class="form-container">
+    <h2 class="title">Registro de colaborador</h2>
+
+    <form nz-form [formGroup]="validateForm" (ngSubmit)="submitForm()">
+      <nz-form-item>
+        <nz-form-label class="white-label" nzRequired nzFor="firstname">Nombre(s)</nz-form-label>
+        <nz-form-control [nzValidateStatus]="validateForm.controls['firstname']">
+          <input nz-input formControlName="firstname" id="firstname" />
+        </nz-form-control>
+      </nz-form-item>
+
+      <nz-form-item>
+        <nz-form-label class="white-label" nzRequired nzFor="lastname">Apellidos</nz-form-label>
+        <nz-form-control [nzValidateStatus]="validateForm.controls['lastname']">
+          <input nz-input formControlName="lastname" id="lastname" />
+        </nz-form-control>
+      </nz-form-item>
+
+      <nz-form-item>
+        <nz-form-label class="white-label" nzRequired nzFor="rfc">RFC</nz-form-label>
+        <nz-form-control [nzValidateStatus]="validateForm.controls['rfc']">
+          <input nz-input formControlName="rfc" id="rfc" />
+        </nz-form-control>
+      </nz-form-item>
+
+      <nz-form-item>
+        <nz-form-label class="white-label" nzRequired nzFor="curp">CURP</nz-form-label>
+        <nz-form-control [nzValidateStatus]="validateForm.controls['curp']">
+          <input nz-input formControlName="curp" id="curp" />
+        </nz-form-control>
+      </nz-form-item>
+
+      <nz-form-item>
+        <nz-form-label class="white-label" nzRequired nzFor="birthdate">Fecha de nacimiento</nz-form-label>
+        <nz-form-control>
+          <div class="input-with-help">
+            <input
+              nz-input
+              formControlName="birthdate"
+              id="birthdate"
+              placeholder="DD/MM/AAAA"
+              autocomplete="off"
+            />
+            <i
+              nz-icon
+              nzType="question-circle"
+              nzTheme="outline"
+              nz-tooltip
+              [nzTooltipTitle]="'Ingrese su fecha de nacimiento en formato día, mes y año (DD/MM/AAAA)'"
+              class="help-icon-outside"
+            ></i>
+          </div>
+        </nz-form-control>
+      </nz-form-item>
+
+      <nz-form-item>
+        <nz-form-label class="white-label" nzRequired nzFor="gender">Género</nz-form-label>
+        <nz-form-control [nzValidateStatus]="validateForm.controls['gender']">
+          <select nz-select formControlName="gender" id="gender">
+            <option value="M">Masculino</option>
+            <option value="F">Femenino</option>
+          </select>
+        </nz-form-control>
+      </nz-form-item>
+
+      <nz-form-item>
+        <nz-form-label class="white-label" nzRequired nzFor="address">Dirección completa</nz-form-label>
+        <nz-form-control [nzValidateStatus]="validateForm.controls['address']">
+          <textarea nz-input formControlName="address" id="address" rows="3"></textarea>
+        </nz-form-control>
+      </nz-form-item>
+
+      <nz-form-item>
+        <nz-form-label class="white-label" nzRequired nzFor="email">Correo electrónico</nz-form-label>
+        <nz-form-control [nzValidateStatus]="validateForm.controls['email']">
+          <input nz-input type="email" formControlName="email" id="email" />
+        </nz-form-control>
+      </nz-form-item>
+
+      <nz-form-item>
+        <nz-form-label class="white-label" nzRequired nzFor="password">Contraseña</nz-form-label>
+        <nz-form-control style="position: relative;">
+          <input
+            nz-input
+            [type]="showPassword ? 'text' : 'password'"
+            formControlName="password"
+            id="password"
+            (copy)="preventClipboardAction($event)"
+            (paste)="preventClipboardAction($event)"
+            (cut)="preventClipboardAction($event)"
+          />
+          <i
+            nz-icon
+            nzType="question-circle"
+            nzTheme="outline"
+            nz-tooltip
+            [nzTooltipTitle]="'La contraseña debe tener al menos 8 caracteres, incluir una mayúscula, una minúscula, un número y un símbolo (por ejemplo: !, @, #, $).'"
+            class="help-icon-outside-multiple"
+          ></i>
+          <i
+            nz-icon
+            [nzType]="showPassword ? 'eye-invisible' : 'eye'"
+            class="password-toggle"
+            (click)="togglePasswordVisibility()"
+          ></i>
+        </nz-form-control>
+      </nz-form-item>
+
+      <nz-form-item>
+        <nz-form-label class="white-label" nzRequired nzFor="confirmPassword">Confirmar contraseña</nz-form-label>
+        <nz-form-control>
+          <input
+            nz-input
+            [type]="showConfirmPassword ? 'text' : 'password'"
+            formControlName="confirmPassword"
+            id="confirmPassword"
+            (copy)="preventClipboardAction($event)"
+            (paste)="preventClipboardAction($event)"
+            (cut)="preventClipboardAction($event)"
+          />
+          <i
+            nz-icon
+            [nzType]="showConfirmPassword ? 'eye-invisible' : 'eye'"
+            class="password-toggle"
+            (click)="toggleConfirmPasswordVisibility()"
+          ></i>
+        </nz-form-control>
+      </nz-form-item>
+
+      <nz-form-item>
+        <nz-form-label class="white-label" nzRequired nzFor="rol">Rol</nz-form-label>
+        <nz-form-control [nzValidateStatus]="validateForm.controls['rol']">
+          <select nz-select formControlName="rol" id="rol">
+            <option value="analyst">Analista</option>
+            <option value="supervisor">Supervisor</option>
+          </select>
+        </nz-form-control>
+      </nz-form-item>
+
+      <nz-form-item class="register-area">
+        <nz-form-control>
+          <button nz-button 
+            class="custom-register-button" nzType="primary" type="submit" block>Registrar colaborador</button>
+        </nz-form-control>
+      </nz-form-item>
+    </form>
+  </div>
+</div>

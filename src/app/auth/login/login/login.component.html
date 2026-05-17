@@ -1,0 +1,145 @@
+<app-top-menu></app-top-menu>
+
+<div class="container">
+  <form nz-form [formGroup]="validateForm" class="login-form" (ngSubmit)="submitForm()">
+    <h1 style="font-size: 48px;"><strong>¡Bienvenido!</strong></h1>
+    <nz-form-item>
+      <nz-form-control nzErrorTip="Ingresa tu correo!">
+        <nz-input-group nzPrefixIcon="user">
+          <input type="text" nz-input formControlName="userName" placeholder="Correo" 
+            style="padding-left: 10px; padding-right: 10px;"/>
+        </nz-input-group>
+      </nz-form-control>
+    </nz-form-item>
+
+    <nz-form-item>
+      <nz-form-control nzErrorTip="Ingresa contraseña!">
+        <nz-input-group nzPrefixIcon="lock" [nzSuffix]="suffixIcon">
+          <input
+            [type]="passwordVisible ? 'text' : 'password'"
+            nz-input
+            formControlName="password"
+            placeholder="Contraseña"
+          />
+        </nz-input-group>
+        <ng-template #suffixIcon>
+          <i
+            nz-icon
+            [nzType]="passwordVisible ? 'eye-invisible' : 'eye'"
+            (click)="togglePasswordVisibility()"
+            style="cursor: pointer;"
+          ></i>
+        </ng-template>
+      </nz-form-control>
+    </nz-form-item>
+
+    <div nz-row class="login-form-margin">
+      <div nz-col [nzSpan]="12">
+        <label nz-checkbox formControlName="remember">
+          <span>Recuérdame</span>
+        </label>
+      </div>
+    </div>
+      <a
+        (click)="openRecoverModal()"
+        style="color: black; text-decoration: underline; cursor: pointer; margin-top: 15px;"
+      >
+        Recuperar contraseña
+      </a>
+      <nz-modal
+        [(nzVisible)]="isRecoverModalVisible"
+        nzTitle="Recuperar contraseña"
+        (nzOnCancel)="handleRecoverCancel()"
+        [nzFooter]="null"
+      >
+        <ng-container *nzModalContent>
+          <div *ngIf="!emailSent">
+            <form [formGroup]="recoverForm" (ngSubmit)="sendRecoveryEmail()" class="modal-form">
+              <label>Correo electrónico:</label>
+              <input nz-input formControlName="email" placeholder="Ingresa tu correo" type="email" class="modal-input" />
+              <div
+                *ngIf="recoverForm.get('email')?.invalid && recoverForm.get('email')?.touched"
+                class="error"
+              >
+                Ingresa un correo válido.
+              </div>
+              <button
+                nz-button
+                nzType="primary"
+                [disabled]="recoverForm.invalid"
+                class="login-form-margin modal-button"
+              >
+                Enviar
+              </button>
+            </form>
+          </div>
+
+          <div *ngIf="emailSent">
+            <form [formGroup]="confirmForm" (ngSubmit)="confirmNewPassword()" class="modal-form">
+              <p>Correo: <strong>{{ recoverForm.value.email }}</strong></p>
+
+              <label>Nueva contraseña:</label>
+              <input
+                nz-input
+                type="password"
+                formControlName="newPassword"
+                placeholder="Nueva contraseña"
+                class="modal-input"
+              />
+              <div
+                *ngIf="confirmForm.get('newPassword')?.invalid && confirmForm.get('newPassword')?.touched"
+                class="error"
+              >
+                La contraseña debe tener al menos 8 caracteres, mayúsculas, minúsculas, número y carácter especial.
+              </div>
+
+              <label>Confirmar contraseña:</label>
+              <input
+                nz-input
+                type="password"
+                formControlName="confirmPassword"
+                placeholder="Confirmar contraseña"
+                class="modal-input"
+              />
+              <div
+                *ngIf="confirmForm.hasError('passwordMismatch') && confirmForm.touched"
+                class="error"
+              >
+                Las contraseñas no coinciden.
+              </div>
+
+              <label>Código de verificación:</label>
+              <input
+                nz-input
+                type="text"
+                formControlName="confirmationCode"
+                placeholder="Código"
+                class="modal-input"
+              />
+
+              <button
+                nz-button
+                nzType="primary"
+                [disabled]="confirmForm.invalid"
+                class="login-form-margin modal-button"
+              >
+                Cambiar contraseña
+              </button>
+            </form>
+          </div>
+        </ng-container>
+      </nz-modal>
+
+    <button nz-button class="login-form-button login-form-margin" [nzType]="'primary'">Ingresar</button>
+    <p style="margin-top: 15px;">O</p>
+    <button class="login-form-button login-form-margin" style="padding-bottom: 5px; padding-top: 5px;" (click)="navigateToSignUp()">Regístrate ahora!</button>
+  </form>
+
+  <div class="content">
+    <h1>
+      ¡Qué gusto verte!<br />
+      La manera más sencilla y eficiente de solicitar un crédito.<br />
+      Respuesta en minutos.
+    </h1>
+  </div>
+</div>

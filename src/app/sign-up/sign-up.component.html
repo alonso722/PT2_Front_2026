@@ -1,0 +1,422 @@
+<app-top-menu></app-top-menu>
+
+<div class="container">
+  <div class="form-container">
+    <h2 class="title">Registro</h2>
+    <form nz-form [formGroup]="validateForm" (ngSubmit)="submitForm()">
+
+      <h3 class="form-section-title">Datos personales</h3>
+
+      <nz-form-item>
+        <nz-form-label class="white-label" nzRequired nzFor="firstname">Nombre(s)</nz-form-label>
+        <nz-form-control>
+          <input nz-input formControlName="firstname" id="firstname" />
+        </nz-form-control>
+      </nz-form-item>
+
+      <nz-form-item>
+        <nz-form-label class="white-label" nzRequired nzFor="lastname">Apellidos</nz-form-label>
+        <nz-form-control>
+          <input nz-input formControlName="lastname" id="lastname" />
+        </nz-form-control>
+      </nz-form-item>
+
+      <nz-form-item>
+        <nz-form-label class="white-label" nzRequired nzFor="birthdate">Fecha de nacimiento</nz-form-label>
+        <nz-form-control>
+          <div class="input-with-help">
+            <input
+              nz-input
+              formControlName="birthdate"
+              id="birthdate"
+              placeholder="DD/MM/AAAA"
+              autocomplete="off"
+            />
+            <i
+              nz-icon
+              nzType="question-circle"
+              nzTheme="outline"
+              nz-tooltip
+              [nzTooltipTitle]="'Ingrese su fecha de nacimiento en formato día, mes y año (DD/MM/AAAA)'"
+              class="help-icon-outside"
+            ></i>
+          </div>
+        </nz-form-control>
+      </nz-form-item>
+
+      <nz-form-item>
+        <nz-form-label class="white-label" nzRequired nzFor="rfc">RFC</nz-form-label>
+        <nz-form-control>
+          <input nz-input formControlName="rfc" id="rfc" />
+        </nz-form-control>
+      </nz-form-item>
+
+      <nz-form-item>
+        <nz-form-label class="white-label" nzRequired nzFor="curp">CURP</nz-form-label>
+        <nz-form-control>
+          <input nz-input formControlName="curp" id="curp" />
+        </nz-form-control>
+      </nz-form-item>
+
+      <nz-form-item>
+        <nz-form-label class="white-label" nzRequired nzFor="civil_status">Estado civil</nz-form-label>
+        <nz-form-control>
+          <select formControlName="civil_status" id="civil_status">
+            <option value="soltero">Soltero</option>
+            <option value="casado">Casado</option>
+            <option value="divorciado">Divorciado</option>
+          </select>
+        </nz-form-control>
+      </nz-form-item>
+
+      <nz-form-item>
+        <nz-form-label class="white-label" nzRequired nzFor="gender">Género</nz-form-label>
+        <nz-form-control>
+          <select formControlName="gender" id="gender">
+            <option value="M">Masculino</option>
+            <option value="F">Femenino</option>
+          </select>
+        </nz-form-control>
+      </nz-form-item>
+
+      <nz-form-item>
+        <nz-form-label class="white-label" nzRequired nzFor="education_level">Nivel educativo</nz-form-label>
+        <nz-form-control>
+          <div class="input-with-help">
+            <select formControlName="education_level" id="education_level">
+              <option value="secundaria">Secundaria</option>
+              <option value="preparatoria">Preparatoria</option>
+              <option value="licenciatura">Licenciatura</option>
+              <option value="maestria">Maestría</option>
+            </select>
+            <i
+              nz-icon
+              nzType="question-circle"
+              nzTheme="outline"
+              nz-tooltip
+              [nzTooltipTitle]="'Debe ser el último nivel educativo concluido.'"
+              class="help-icon-outside"
+            ></i>
+          </div>
+        </nz-form-control>
+      </nz-form-item>
+
+      <nz-form-item>
+        <nz-form-label class="white-label" nzRequired nzFor="monthly_income">Ingreso mensual</nz-form-label>
+        <nz-form-control>
+          <nz-input-number formControlName="monthly_income" [nzMin]="0" [nzStep]="1000" style="width: 100%;" />
+        </nz-form-control>
+      </nz-form-item>
+
+      <nz-form-item>
+        <nz-form-label class="white-label" nzRequired nzFor="days_employed">Días trabajando</nz-form-label>
+        <nz-form-control>
+          <div class="input-with-help" style="width: 100%;">
+            <nz-input-number
+              formControlName="days_employed"
+              [nzMin]="0"
+              style="flex: 1;"
+              id="days_employed"
+            ></nz-input-number>
+            <i
+              nz-icon
+              nzType="question-circle"
+              nzTheme="outline"
+              nz-tooltip
+              [nzTooltipTitle]="'Si no tiene empleo actualmente ingrese 0.'"
+              class="help-icon-outside"
+            ></i>
+          </div>
+        </nz-form-control>
+      </nz-form-item>
+
+      <nz-form-item>
+        <nz-form-label class="white-label" nzRequired nzFor="occupation_type">Ocupación</nz-form-label>
+        <nz-form-control>
+          <div class="input-with-help" style="width: 100%;">
+            <select formControlName="occupation_type" id="occupation_type">
+              <option [ngValue]="0">Empleado</option>
+              <option [ngValue]="0">Independiente</option>
+              <option [ngValue]="1">Estudiante</option>
+              <option [ngValue]="2">Desempleado</option>
+            </select>
+            <i
+              nz-icon
+              nzType="question-circle"
+              nzTheme="outline"
+              nz-tooltip
+              [nzTooltipTitle]="'Si su empleo es informal o similar, seleccione: Independiente.'"
+              class="help-icon-outside"
+            ></i>
+          </div>
+        </nz-form-control>
+      </nz-form-item>
+
+      <h3 class="form-section-title">Inmueble y propiedades</h3>
+
+      <nz-form-item>
+        <nz-form-label class="white-label" nzRequired>¿Cuenta con automóvil propio?</nz-form-label>
+        <nz-form-control>
+          <label nz-checkbox formControlName="has_own_car">Sí</label>
+        </nz-form-control>
+      </nz-form-item>
+
+      <nz-form-item>
+        <nz-form-label class="white-label" nzRequired>¿Su vivienda es propia?</nz-form-label>
+        <nz-form-control>
+          <label nz-checkbox formControlName="has_own_realty">Sí</label>
+        </nz-form-control>
+      </nz-form-item>
+
+      <nz-form-item>
+        <nz-form-label class="white-label" nzRequired nzFor="address">Dirección completa</nz-form-label>
+        <nz-form-control>
+          <textarea nz-input formControlName="address" id="address" rows="3"></textarea>
+        </nz-form-control>
+      </nz-form-item>
+
+      <h3 class="form-section-title">Datos socieconómicos</h3>
+
+      <nz-form-item>
+        <nz-form-label class="white-label" nzRequired nzFor="count_children">Número de menores en su núcleo familiar</nz-form-label>
+        <nz-form-control>
+          <nz-input-number formControlName="count_children" [nzMin]="0" style="width: 100%;" />
+        </nz-form-control>
+      </nz-form-item>
+
+      <nz-form-item>
+        <nz-form-label class="white-label" nzRequired nzFor="count_adults">Número de adultos en su núcleo familiar</nz-form-label>
+        <nz-form-control>
+          <nz-input-number formControlName="count_adults" [nzMin]="0" style="width: 100%;" />
+        </nz-form-control>
+      </nz-form-item>
+
+      <nz-form-item>
+        <nz-form-label class="white-label" nzRequired nzFor="food_expenses">Gastos en alimentación</nz-form-label>
+        <nz-form-control>
+          <div class="input-with-help" style="width: 100%;">
+            <nz-input-number
+              formControlName="food_expenses"
+              [nzMin]="0"
+              style="flex: 1;"
+              id="food_expenses"
+            ></nz-input-number>
+            <i
+              nz-icon
+              nzType="question-circle"
+              nzTheme="outline"
+              nz-tooltip
+              [nzTooltipTitle]="'Aproximado mensual, familiar, de cuanto gasta en alimentos'"
+              class="help-icon-outside"
+            ></i>
+          </div>
+        </nz-form-control>
+      </nz-form-item>
+
+      <nz-form-item>
+        <nz-form-label class="white-label" nzRequired nzFor="education_expenses">Gastos en educación</nz-form-label>
+        <nz-form-control>
+          <div class="input-with-help" style="width: 100%;">
+            <nz-input-number
+              formControlName="education_expenses"
+              [nzMin]="0"
+              style="flex: 1;"
+              id="education_expenses"
+            ></nz-input-number>
+            <i
+              nz-icon
+              nzType="question-circle"
+              nzTheme="outline"
+              nz-tooltip
+              [nzTooltipTitle]="'Aproximado mensual, familiar, de cuanto gasta en educación'"
+              class="help-icon-outside"
+            ></i>
+          </div>
+        </nz-form-control>
+      </nz-form-item>
+
+      <nz-form-item>
+        <nz-form-label class="white-label" nzRequired nzFor="transport_expenses">Gastos en transporte</nz-form-label>
+        <nz-form-control>
+          <div class="input-with-help" style="width: 100%;">
+            <nz-input-number
+              formControlName="transport_expenses"
+              [nzMin]="0"
+              style="flex: 1;"
+              id="transport_expenses"
+            ></nz-input-number>
+            <i
+              nz-icon
+              nzType="question-circle"
+              nzTheme="outline"
+              nz-tooltip
+              [nzTooltipTitle]="'Aproximado mensual, familiar, de cuanto gasta en transporte'"
+              class="help-icon-outside"
+            ></i>
+          </div>
+        </nz-form-control>
+      </nz-form-item>
+
+      <nz-form-item>
+        <nz-form-label class="white-label" nzRequired nzFor="utilities_expenses">Gastos en servicios públicos</nz-form-label>
+        <nz-form-control>
+          <div class="input-with-help" style="width: 100%;">
+            <nz-input-number
+              formControlName="utilities_expenses"
+              [nzMin]="0"
+              style="flex: 1;"
+              id="utilities_expenses"
+            ></nz-input-number>
+            <i
+              nz-icon
+              nzType="question-circle"
+              nzTheme="outline"
+              nz-tooltip
+              [nzTooltipTitle]="'Aproximado mensual, familiar, de cuanto gasta en servicios públicos'"
+              class="help-icon-outside"
+            ></i>
+          </div>
+        </nz-form-control>
+      </nz-form-item>
+
+      <nz-form-item>
+        <nz-form-label class="white-label" nzRequired nzFor="health_expenses">Gastos en salud</nz-form-label>
+        <nz-form-control>
+          <div class="input-with-help" style="width: 100%;">
+            <nz-input-number
+              formControlName="health_expenses"
+              [nzMin]="0"
+              style="flex: 1;"
+              id="health_expenses"
+            ></nz-input-number>
+            <i
+              nz-icon
+              nzType="question-circle"
+              nzTheme="outline"
+              nz-tooltip
+              [nzTooltipTitle]="'Aproximado mensual, familiar, de cuanto gasta en salud'"
+              class="help-icon-outside"
+            ></i>
+          </div>
+        </nz-form-control>
+      </nz-form-item>
+
+      <nz-form-item>
+        <nz-form-label class="white-label" nzRequired nzFor="maintenance_expenses">Gastos en mantenimiento (hogar)</nz-form-label>
+        <nz-form-control>
+          <div class="input-with-help" style="width: 100%;">
+            <nz-input-number
+              formControlName="maintenance_expenses"
+              [nzMin]="0"
+              style="flex: 1;"
+              id="maintenance_expenses"
+            ></nz-input-number>
+            <i
+              nz-icon
+              nzType="question-circle"
+              nzTheme="outline"
+              nz-tooltip
+              [nzTooltipTitle]="'Aproximado mensual, familiar, de cuanto gasta en el mantenimiento de su hogar. Limpieza, reparaciones, etc.'"
+              class="help-icon-outside"
+            ></i>
+          </div>
+        </nz-form-control>
+      </nz-form-item>
+
+      <nz-form-item *ngIf="!validateForm.get('has_own_realty')?.value">
+        <nz-form-label class="white-label" nzRequired nzFor="rent_expenses">Gastos en renta</nz-form-label>
+        <nz-form-control>
+          <div class="input-with-help" style="width: 100%;">
+            <nz-input-number
+              formControlName="rent_expenses"
+              [nzMin]="0"
+              style="flex: 1;"
+              id="rent_expenses"
+            ></nz-input-number>
+            <i
+              nz-icon
+              nzType="question-circle"
+              nzTheme="outline"
+              nz-tooltip
+              [nzTooltipTitle]="'Gastos mensuales de renta de su vivienda'"
+              class="help-icon-outside"
+            ></i>
+          </div>
+        </nz-form-control>
+      </nz-form-item>
+      
+      <h3 class="form-section-title">Credenciales</h3>
+
+      <nz-form-item>
+        <nz-form-label class="white-label" nzRequired nzFor="email">Correo electrónico</nz-form-label>
+        <nz-form-control>
+          <input nz-input type="email" formControlName="email" id="email" />
+        </nz-form-control>
+      </nz-form-item>
+
+      <nz-form-item>
+        <nz-form-label class="white-label" nzRequired nzFor="password">Contraseña</nz-form-label>
+        <nz-form-control style="position: relative;">
+          <input
+            nz-input
+            [type]="showPassword ? 'text' : 'password'"
+            formControlName="password"
+            id="password"
+            (copy)="preventClipboardAction($event)"
+            (paste)="preventClipboardAction($event)"
+            (cut)="preventClipboardAction($event)"
+          />
+          <i
+            nz-icon
+            nzType="question-circle"
+            nzTheme="outline"
+            nz-tooltip
+            [nzTooltipTitle]="'La contraseña debe tener al menos 8 caracteres, incluir una mayúscula, una minúscula, un número y un símbolo (por ejemplo: !, @, #, $).'"
+            class="help-icon-outside-multiple"
+          ></i>
+          <i
+            nz-icon
+            [nzType]="showPassword ? 'eye-invisible' : 'eye'"
+            class="password-toggle"
+            (click)="togglePasswordVisibility()"
+          ></i>
+        </nz-form-control>
+      </nz-form-item>
+
+      <nz-form-item>
+        <nz-form-label class="white-label" nzRequired nzFor="confirmPassword">Confirmar contraseña</nz-form-label>
+        <nz-form-control>
+          <input
+            nz-input
+            [type]="showConfirmPassword ? 'text' : 'password'"
+            formControlName="confirmPassword"
+            id="confirmPassword"
+            (copy)="preventClipboardAction($event)"
+            (paste)="preventClipboardAction($event)"
+            (cut)="preventClipboardAction($event)"
+          />
+          <i
+            nz-icon
+            [nzType]="showConfirmPassword ? 'eye-invisible' : 'eye'"
+            class="password-toggle"
+            (click)="toggleConfirmPasswordVisibility()"
+          ></i>
+        </nz-form-control>
+      </nz-form-item>
+
+      <nz-form-item class="register-area">
+        <nz-form-control>
+          <button
+            nz-button
+            nzType="primary"
+            type="submit"
+            class="custom-register-button"
+          >
+            Registrar
+          </button>
+        </nz-form-control>
+      </nz-form-item>
+
+    </form>
+  </div>
+</div>

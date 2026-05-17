@@ -1,0 +1,30 @@
+ * {
+    background-color: #303135 !important;
+}
+
+::ng-deep .ant-menu-item a,
+::ng-deep .ant-menu-submenu-title {
+    color: #53E3ED !important;
+}
+
+
+::ng-deep .ant-menu-item:hover a,
+::ng-deep .ant-menu-item-group-title,
+::ng-deep .ant-menu-submenu-title:hover {
+    color: white !important;
+}
+
+::ng-deep .ant-menu-submenu-title {
+  line-height: 45px !important; 
+  height: 45px !important;
+  padding-top: 0 !important;
+  padding-bottom: 0 !important;
+}
+
+nz-sider nz-menu ::ng-deep .anticon {
+  color: #53E3ED !important;
+}
+
+.disabled {
+  opacity: 0.5;
+}

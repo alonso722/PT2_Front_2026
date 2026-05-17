@@ -1,0 +1,288 @@
+.container {
+  display: flex;
+  justify-content: center;
+  background-color: #3a3b3e;
+  margin-left: 80px;
+  padding: 80px 50px;
+  min-height: 100vh;
+}
+
+app-nav-bar {
+  position: relative; /* o fixed/absolute si es necesario */
+  z-index: 10; /* un valor bajo, menor que el z-index de los mensajes */
+}
+
+.form-container {
+  background-color: #303135;
+  padding: 30px 40px;
+  border-radius: 12px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+  width: 100%;
+  max-width: 1100px;
+  color: white;
+  position: relative;
+  z-index: 1;
+}
+
+.title {
+  text-align: center;
+  margin-bottom: 30px;
+  font-size: 24px;
+  font-weight: bold;
+  color: white;
+}
+
+.form-section-title {
+  grid-column: 1 / -1;
+  font-size: 18px;
+  margin: 32px 0 10px;
+  padding-bottom: 4px;
+  border-bottom: 1px solid #ccc;
+  color: white;
+}
+
+label,
+nz-form-label,
+.form-container nz-form-label,
+.form-container label {
+  color: white !important;
+}
+
+
+textarea[nz-input] {
+  min-height: 90px;
+  resize: vertical;
+}
+
+nz-form-control nz-checkbox {
+  display: flex;
+  align-items: center;
+}
+
+nz-checkbox {
+  font-size: 14px;
+  color: white;
+}
+
+input[nz-input],
+select,
+nz-select .ant-select-selector,
+nz-input-number {
+  border-radius: 8px !important;
+  height: 38px;
+  background-color: #3a3b3e !important;
+  color: white !important;
+  border: 1px solid #ccc;
+  box-shadow: 3px 3px 8px rgba(0, 0, 0, 0.2);
+  transition: box-shadow 0.3s ease;
+}
+
+select option {
+  background-color: #3a3b3e;
+  color: white;
+}
+
+.register-area {
+  grid-column: 1 / -1;
+  margin-top: 24px;
+}
+
+button[nz-button] {
+  border-radius: 8px;
+}
+
+@media (max-width: 900px) {
+  [nz-form] {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 600px) {
+  [nz-form] {
+    grid-template-columns: 1fr;
+  }
+
+  .register-area {
+    margin-top: 16px;
+  }
+}
+
+/* Estilo para inputs */
+::ng-deep input[nz-input] {
+  border-radius: 8px !important;
+  height: 38px !important;
+  background-color: #3a3b3e !important;
+  color: white !important;
+  box-shadow: 3px 3px 8px rgba(0, 0, 0, 0.2);
+  transition: box-shadow 0.3s ease;
+}
+
+::ng-deep nz-select .ant-select-selector {
+  border-radius: 8px !important;
+  height: 38px !important;
+  display: flex;
+  align-items: center;
+  background-color: #3a3b3e !important;
+  color: white !important;
+  box-shadow: 3px 3px 8px rgba(0, 0, 0, 0.2);
+  transition: box-shadow 0.3s ease;
+}
+
+::ng-deep nz-input-number .ant-input-number {
+  border-radius: 8px !important;
+  height: 38px !important;
+  background-color: #3a3b3e !important;
+  color: white !important;
+  box-shadow: 3px 3px 8px rgba(0, 0, 0, 0.2);
+  transition: box-shadow 0.3s ease;
+}
+
+::ng-deep input[nz-input]:focus,
+::ng-deep .ant-select-focused .ant-select-selector,
+::ng-deep .ant-input-number-focused {
+  box-shadow: 4px 4px 12px rgba(0, 0, 0, 0.25) !important;
+  border-color: #40a9ff !important;
+  outline: none;
+}
+
+/* Estilo personalizado para select nativo */
+select {
+  border-radius: 8px;
+  height: 38px;
+  padding: 6px 10px;
+  padding-right: 34px;
+  border: 1px solid #ccc;
+  background-color: #3a3b3e;
+  color: white;
+  box-shadow: 3px 3px 8px rgba(0, 0, 0, 0.2);
+  transition: box-shadow 0.3s ease;
+  width: auto; 
+  max-width: 100%;
+  appearance: none;
+  background-image: url("data:image/svg+xml;utf8,<svg fill='white' height='16' viewBox='0 0 24 24' width='16' xmlns='http://www.w3.org/2000/svg'><path d='M7 10l5 5 5-5z'/></svg>");
+  background-repeat: no-repeat;
+  background-position: right 10px center;
+  background-size: 16px 16px;
+}
+
+select:focus {
+  outline: none;
+  border-color: #40a9ff;
+  box-shadow: 4px 4px 12px rgba(0, 0, 0, 0.25);
+}
+
+select option {
+  background-color: #3a3b3e;
+  color: white;
+}
+
+.password-toggle {
+  position: absolute;
+  right: 16px;
+  top: 50%;
+  transform: translateY(-50%);
+  cursor: pointer;
+  color: #53E3ED;
+}
+
+/* NUEVO: Estilo para inputs con icono de ayuda */
+.input-with-help {
+  display: flex;
+  align-items: center;
+    width: auto; 
+  max-width: 100%;
+  gap: 8px;
+  position: relative;
+}
+
+.input-with-help input,
+.input-with-help select,
+.input-with-help textarea {
+  flex-grow: 1;
+  min-width: 0; 
+}
+
+.input-with-help .help-icon-outside {
+  color: #53E3ED;
+  font-size: 13px;
+  cursor: pointer;
+  user-select: none;
+  border-radius: 50%;
+  width: 24px;
+  height: 24px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 10;
+  flex-shrink: 0;
+}
+
+.help-icon-outside-multiple {
+  color: #53E3ED;
+  font-size: 13px;
+  cursor: pointer;
+  user-select: none;
+  border-radius: 50%;
+  width: 24px;
+  height: 24px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: absolute;
+  right: -25px; /* distancia desde el borde derecho para que no se sobreponga con el ojo */
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 10;
+}
+
+.custom-register-button {
+  margin-left: 45%;
+  background-color: #53E3ED !important;
+  color: #303135 !important;
+  border: none !important;
+  border-radius: 8px !important;
+  padding: 2px 20px !important;
+  font-weight: bold;
+  transition: background-color 0.3s ease;
+  width: 100px;
+}
+
+.custom-register-button:hover {
+  background-color: #3ecdd9 !important;
+}
+.document-section {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.document-columns {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 20px;
+}
+
+.form-field {
+  display: flex;
+  flex-direction: column;
+  color: white;
+}
+
+.form-field label {
+  margin-bottom: 8px;
+  font-weight: 600;
+}
+
+.credit-data-section {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 20px;
+  max-width: 900px; /* o el tamaño que prefieras */
+}
+
+.guarantee-data-section {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 20px;
+  max-width: 600px; /* tamaño menor que crédito */
+}
