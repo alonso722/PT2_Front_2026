@@ -149,11 +149,33 @@ export class RequesterEditComponent implements OnInit {
     return children + adults <= total ? null : { familyMismatch: true };
   }
 
+  private normalizeNumbers(obj: any): any {
+    const cleaned = { ...obj };
+
+    Object.keys(cleaned).forEach((key) => {
+      const value = cleaned[key];
+
+      // convierte solo strings que parezcan números
+      if (typeof value === 'string' && value.trim() !== '') {
+        const parsed = Number(value);
+
+        if (!isNaN(parsed)) {
+          cleaned[key] = parsed;
+        }
+      }
+    });
+
+    return cleaned;
+  }
+
   async submitForm(): Promise<void> {
     if (this.validateForm.valid) {
-      const formValue = { ...this.validateForm.value };
-      console.log(formValue);
-      formValue.monthly_income = Number(formValue.monthly_income);
+      let formValue = { ...this.validateForm.value };
+
+      // 🔥 NORMALIZA TIPOS (FIX PRINCIPAL)
+      formValue = this.normalizeNumbers(formValue);
+
+      console.log('Payload final:', formValue);
 
       const rawToken = localStorage.getItem('accessToken');
       let token = '';
@@ -162,7 +184,6 @@ export class RequesterEditComponent implements OnInit {
         try {
           const parsed = JSON.parse(rawToken);
           token = parsed._value || '';
-          console.log('Token obtenido:', token);
         } catch (e) {
           token = rawToken;
         }
@@ -170,13 +191,12 @@ export class RequesterEditComponent implements OnInit {
 
       try {
         if (!this.userId) {
-          this.message.error(
-            'No se pudo identificar al usuario para actualizar.'
-          );
+          this.message.error('No se pudo identificar al usuario para actualizar.');
           return;
         }
 
-        const url = `${environment.REQUESTER_SERVICE_URL}/${this.userId}`;
+        const url = `${environment.REQUESTER_SERVICE_URL}`;
+
         await axios.patch(url, formValue, {
           headers: { Authorization: `Bearer ${token}` },
         });
@@ -187,6 +207,13 @@ export class RequesterEditComponent implements OnInit {
 
         const status = error.response?.status;
         const backendMessage = error.response?.data?.message;
+
+        if (status === 400) {
+          this.message.error('Error de validación en los datos enviados');
+          console.log('Backend validation:', backendMessage);
+        } else {
+          this.message.error('Error al actualizar información');
+        }
       }
     } else {
       if (this.validateForm.errors?.['familyMismatch']) {

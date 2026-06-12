@@ -46,7 +46,7 @@ export class CreditFormComponent {
     birth: null,
     address: null,
     guaranteeDoc: null,
-    //income: null,
+    income: null,
   };
 
   documentUrls: { [key: string]: string | null } = {
@@ -54,7 +54,7 @@ export class CreditFormComponent {
     birth: null,
     address: null,
     guaranteeDoc: null,
-    //income: null,
+    income: null,
   };
 
   constructor(private fb: FormBuilder, private message: NzMessageService) {
@@ -150,7 +150,7 @@ export class CreditFormComponent {
           ine: `${environment.DOCUMENTS_SERVICE_URL}/ine`,
           birth: `${environment.DOCUMENTS_SERVICE_URL}/birth`,
           address: `${environment.DOCUMENTS_SERVICE_URL}/domicile`,
-          //income: `${environment.DOCUMENTS_SERVICE_URL}/income`,
+          income: `${environment.DOCUMENTS_SERVICE_URL}/income`,
         };
         uploadUrl = endpoints[type];
         getUrl = endpoints[type];
@@ -250,7 +250,14 @@ export class CreditFormComponent {
       this.message.error('El valor de la garantía no puede ser negativo.');
       return;
     }
-    const documentosRequeridos = ['ine', 'birth', 'address'];
+
+    const documentosRequeridos = [
+      'ine',
+      'birth',
+      'address',
+      'income',
+    ];
+
     if (this.showGuaranteeDoc) {
       documentosRequeridos.push('guaranteeDoc');
     }
@@ -299,7 +306,7 @@ export class CreditFormComponent {
       url_ine: this.documentUrls['ine'],
       url_birth_certificate: this.documentUrls['birth'],
       url_address: this.documentUrls['address'],
-      // url_income: this.documentUrls['income'],
+      url_income: this.documentUrls['income'],
       url_guarantee: this.showGuaranteeDoc
         ? this.documentUrls['guaranteeDoc']
         : null,
@@ -333,12 +340,15 @@ export class CreditFormComponent {
         birth: null,
         address: null,
         guaranteeDoc: null,
+        income: null,
       };
+
       this.documentUrls = {
         ine: null,
         birth: null,
         address: null,
         guaranteeDoc: null,
+        income: null,
       };
       this.showGuaranteeDoc = false;
       this.lastRequestId = '';
