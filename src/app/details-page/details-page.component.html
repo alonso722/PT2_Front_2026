@@ -79,6 +79,26 @@
           </label>
         </div>
 
+        <div *ngIf="solicitud?.url_income"
+          style="display: flex; flex-direction: column; align-items: center">
+
+          <img
+            src="assets/pdf.png"
+            alt="PDF"
+            width="40"
+            height="40"
+            style="cursor: pointer"
+            (click)="openInNewTab(solicitud.url_income)"
+          />
+
+          <span>Ingresos</span>
+
+          <label>
+            <input type="checkbox" [(ngModel)]="documentChecks['income']" />
+            Documento correcto
+          </label>
+        </div>
+
         <div *ngIf="solicitud?.url_guarantee"
           style="display: flex; flex-direction: column; align-items: center">
           <img src="assets/pdf.png" alt="PDF" width="40" height="40"
@@ -114,31 +134,31 @@
 
       <p>
         <span class="bullet-badge"></span>
-        <strong>Gastos de alimentación:</strong> ${{ gastos.food_expenses }}
+        <strong>Gastos de alimentación:</strong> ${{ solicitud.food_expenses }}
       </p>
       <p>
         <span class="bullet-badge"></span>
-        <strong>Gastos de educación:</strong> ${{ gastos.education_expenses }}
+        <strong>Gastos de educación:</strong> ${{ solicitud.education_expenses }}
       </p>
       <p>
         <span class="bullet-badge"></span>
-        <strong>Gastos de transporte:</strong> ${{ gastos.transport_expenses }}
+        <strong>Gastos de transporte:</strong> ${{ solicitud.transport_expenses }}
       </p>
       <p>
         <span class="bullet-badge"></span>
-        <strong>Gastos de servicios:</strong> ${{ gastos.utilities_expenses }}
+        <strong>Gastos de servicios:</strong> ${{ solicitud.utilities_expenses }}
       </p>
       <p>
         <span class="bullet-badge"></span>
-        <strong>Gastos de salud:</strong> ${{ gastos.health_expenses }}
+        <strong>Gastos de salud:</strong> ${{ solicitud.health_expenses }}
       </p>
       <p>
         <span class="bullet-badge"></span>
-        <strong>Gastos de mantenimiento:</strong> ${{ gastos.maintenance_expenses }}
+        <strong>Gastos de mantenimiento:</strong> ${{ solicitud.maintenance_expenses }}
       </p>
       <p>
         <span class="bullet-badge"></span>
-        <strong>Gastos de renta:</strong> ${{ gastos.rent_expenses }}
+        <strong>Gastos de renta:</strong> ${{ solicitud.rent_expenses }}
       </p>
 
       <p>
@@ -166,6 +186,42 @@
       >
         Relación de esfuerzo alta
       </p>
+    </section>
+
+    <section *ngIf="creditsByRfc && creditsByRfc.length > 0">
+      <h3>Créditos asociados al RFC</h3>
+
+      <div
+        *ngFor="let credit of creditsByRfc"
+        style="background: #303135; padding: 12px; border-radius: 8px; margin-bottom: 12px;"
+      >
+        <p>
+          <strong>ID crédito:</strong> {{ credit.id }}
+        </p>
+
+        <p>
+          <strong>Estado:</strong>
+          <span [style.color]="credit.active ? '#2a8f2a' : '#cc0000'">
+            {{ credit.active ? 'Activo' : 'Inactivo' }}
+          </span>
+        </p>
+
+        <p>
+          <strong>Monto total:</strong> ${{ credit.total_amount }}
+        </p>
+
+        <p>
+          <strong>Saldo restante:</strong> ${{ credit.remaining_amount }}
+        </p>
+
+        <p>
+          <strong>Mensualidad:</strong> ${{ credit.monthly_payment }}
+        </p>
+
+        <p>
+          <strong>Fecha:</strong> {{ credit.credit_date | date:'yyyy-MM-dd' }}
+        </p>
+      </div>
     </section>
 
     <section>

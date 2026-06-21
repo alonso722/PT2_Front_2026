@@ -117,7 +117,7 @@ export class LoginComponent {
 
     try {
       await this.http
-        .post(`${environment.AUTH_SERVICE_URL}/auth/forgot-password`, {
+        .post(`${environment.AUTH_SERVICE_URL}/forgot-password`, {
           email,
         })
         .toPromise();

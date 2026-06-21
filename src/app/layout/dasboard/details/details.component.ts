@@ -49,7 +49,7 @@ export class DetailsComponent implements OnInit {
     birth: null,
     address: null,
     guaranteeDoc: null,
-    //income: null,
+    income: null,
   };
 
   documentUrls: { [key: string]: string | null } = {
@@ -57,7 +57,7 @@ export class DetailsComponent implements OnInit {
     birth: null,
     address: null,
     guaranteeDoc: null,
-    //income: null,
+    income: null,
   };
 
   constructor(
@@ -84,7 +84,7 @@ export class DetailsComponent implements OnInit {
         if (this.isSupervisor) {
           await this.fetchAnalistas();
           this.selectedAnalystId =
-            this.solicitud?.supervisor_id || this.solicitud?.analyst_id || '';
+            this.solicitud?.analyst_id || this.solicitud?.supervisor_id || '';
         }
       }
     } finally {
@@ -137,7 +137,7 @@ export class DetailsComponent implements OnInit {
           ine: `${environment.DOCUMENTS_SERVICE_URL}/ine`,
           birth: `${environment.DOCUMENTS_SERVICE_URL}/birth`,
           address: `${environment.DOCUMENTS_SERVICE_URL}/domicile`,
-          //income: `${environment.DOCUMENTS_SERVICE_URL}/income`,
+          income: `${environment.DOCUMENTS_SERVICE_URL}/income`,
         };
         uploadUrl = endpoints[type];
         getUrl = endpoints[type];
@@ -240,7 +240,7 @@ export class DetailsComponent implements OnInit {
       console.log('Solicitud', this.solicitud);
 
       // 🔹 Aquí obtenemos los documentos asociados
-      const docEndpoints = ['ine', 'birth', 'domicile'];
+      const docEndpoints = ['ine', 'birth', 'domicile', 'income'];
       for (const doc of docEndpoints) {
         try {
           const res = await axios.get(
@@ -433,6 +433,7 @@ export class DetailsComponent implements OnInit {
   }
 
   details(): void {
+    console.log(this.solicitud)
     this.solicitudService.setSolicitud(this.solicitud);
     this.closeDrawer.emit(true);
     this.modalRef?.destroy();

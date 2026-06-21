@@ -17,6 +17,8 @@ import { environment } from '../../environments/environment';
 })
 export class DetailsPageComponent implements OnInit {
   solicitud: any = null;
+  mensualidadCreditosActivos: number = 0;
+  creditsByRfc: any[] = [];
   esfuerzo: number = 0;
   esfuerzoAlto: boolean = false;
 
@@ -28,21 +30,12 @@ export class DetailsPageComponent implements OnInit {
   iaMensaje: string = '';
   iaColor: string = '';
 
-  gastos = {
-    food_expenses: 1500,
-    education_expenses: 1000,
-    transport_expenses: 800,
-    utilities_expenses: 1200,
-    health_expenses: 600,
-    maintenance_expenses: 500,
-    rent_expenses: 2500,
-  };
-
   documentChecks: Record<string, boolean> = {
     domicile: false,
     birth: false,
     ine: false,
-    guarantee: false
+    guarantee: false,
+    income:false
   };
 
   constructor(
@@ -51,18 +44,63 @@ export class DetailsPageComponent implements OnInit {
   ) {}
 
   async ngOnInit(): Promise<void> {
+
     this.solicitud = this.solicitudService.getSolicitud();
     console.log('Solicitud recibida en details-page:', this.solicitud);
+    if (this.solicitud?.rfc) {
+      await this.obtenerCreditosPorRfc();
+    }
+
+    const mensualidadActiva = this.creditsByRfc
+      .filter(c => c.active)
+      .reduce((sum, c) => sum + Number(c.monthly_payment || 0), 0);
+
+    this.mensualidadCreditosActivos = mensualidadActiva;
 
     if (this.solicitud) {
+      const integrantes = Number(this.solicitud.count_family_members || 1);
+      const hijos = Number(this.solicitud.count_children || 0);
+
+      // Mínimos estimados
+      const MIN_COMIDA_POR_PERSONA = 2500;
+      const MIN_SERVICIOS_POR_PERSONA = 500;
+      const MIN_EDUCACION_POR_HIJO = 1500;
+
+      const comidaMinima = integrantes * MIN_COMIDA_POR_PERSONA;
+      const serviciosMinimos = integrantes * MIN_SERVICIOS_POR_PERSONA;
+      const educacionMinima = hijos * MIN_EDUCACION_POR_HIJO;
+
+      // Si declara menos del mínimo, sustituir
+      this.solicitud.food_expenses = Math.max(
+        Number(this.solicitud.food_expenses || 0),
+        comidaMinima
+      );
+
+      this.solicitud.utilities_expenses = Math.max(
+        Number(this.solicitud.utilities_expenses || 0),
+        serviciosMinimos
+      );
+
+      this.solicitud.education_expenses = Math.max(
+        Number(this.solicitud.education_expenses || 0),
+        educacionMinima
+      );
+
+      console.log('Comida ajustada:', this.solicitud.food_expenses);
+      console.log('Servicios ajustados:', this.solicitud.utilities_expenses);
+      console.log('Educación ajustada:', this.solicitud.education_expenses);
       const ingresoMensual = this.solicitud.monthly_income;
 
       // <-- Aquí cambiamos const por this.
-      this.totalGastos = Object.values(this.gastos).reduce(
-        (acc, g) => acc + g,
-        0
-      );
-      this.ingresoDisponible = ingresoMensual - this.totalGastos;
+      this.totalGastos =
+        Number(this.solicitud.food_expenses || 0) +
+        Number(this.solicitud.education_expenses || 0) +
+        Number(this.solicitud.transport_expenses || 0) +
+        Number(this.solicitud.utilities_expenses || 0) +
+        Number(this.solicitud.health_expenses || 0) +
+        Number(this.solicitud.maintenance_expenses || 0) +
+        Number(this.solicitud.rent_expenses || 0);
+      this.ingresoDisponible = ingresoMensual - this.totalGastos - this.mensualidadCreditosActivos;
 
       this.mensualidad = this.solicitud.amount / this.solicitud.loan_term;
       console.log("--------------------------------",this.mensualidad, this.totalGastos, this.ingresoDisponible)
@@ -128,7 +166,7 @@ export class DetailsPageComponent implements OnInit {
         }
       }
 
-      const docEndpoints = ['ine', 'birth', 'domicile'];
+      const docEndpoints = ['ine', 'birth', 'domicile', 'income'];
       for (const doc of docEndpoints) {
         try {
           const res = await axios.get(
@@ -196,6 +234,40 @@ export class DetailsPageComponent implements OnInit {
 
       this.esfuerzoAlto = this.esfuerzo > limite;
       console.log('¿Relación de esfuerzo alta?:', this.esfuerzoAlto);
+    }
+  }
+
+  async obtenerCreditosPorRfc(): Promise<void> {
+    if (!this.solicitud?.rfc) return;
+    
+
+    const rawToken = localStorage.getItem('accessToken');
+    let token = '';
+
+    if (rawToken) {
+      try {
+        const parsed = JSON.parse(rawToken);
+        token = parsed._value || '';
+      } catch (e) {
+        token = rawToken;
+      }
+    }
+
+    try {
+      const response = await axios.get(
+        `${environment.REQUESTS_SERVICE_URL}/credits/rfc/${this.solicitud.rfc}`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+
+      this.creditsByRfc = response.data?.data || [];
+      console.log('Créditos por RFC:', this.creditsByRfc);
+    } catch (error) {
+      console.error('Error al obtener créditos por RFC:', error);
+      this.creditsByRfc = [];
     }
   }
 
