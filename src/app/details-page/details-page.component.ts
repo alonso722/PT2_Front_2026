@@ -343,6 +343,20 @@ export class DetailsPageComponent implements OnInit {
     return this.shapValues.reduce((sum, item) => sum + Number(item.value || 0), 0);
   }
 
+  getShapTotalNegativeValue(): number {
+    return this.shapValues.reduce((sum, item) => {
+      const val = Number(item.value || 0);
+      return val < 0 ? sum + val : sum;
+    }, 0);
+  }
+
+  getShapTotalPositiveValue(): number {
+    return this.shapValues.reduce((sum, item) => {
+      const val = Number(item.value || 0);
+      return val > 0 ? sum + val : sum;
+    }, 0);
+  }
+
   getShapSummaryBasePercent(): number {
     return Math.min(Math.max(this.shapBase, 0), 1) * 100;
   }
@@ -359,6 +373,35 @@ export class DetailsPageComponent implements OnInit {
   getShapSummaryFinalPercent(): number {
     const finalValue = this.getNormalizedIaResultado();
     return Math.min(Math.max(finalValue, 0), 1) * 100;
+  }
+
+  getShapSummaryCalculatedFinal(): number {
+    const totalPositive = this.getShapTotalPositiveValue();
+    const totalNegative = this.getShapTotalNegativeValue();
+    return this.shapBase + totalPositive + totalNegative;
+  }
+
+  getShapSummaryNegativeLeft(): number {
+    const calculatedFinal = this.getShapSummaryCalculatedFinal();
+    return Math.min(Math.max(calculatedFinal, 0), 1) * 100;
+  }
+
+  getShapSummaryNegativeWidth(): number {
+    const totalNegative = this.getShapTotalNegativeValue();
+    const absNegative = Math.abs(totalNegative);
+    return Math.min(Math.max(absNegative, 0), 1) * 100;
+  }
+
+  getShapSummaryPositiveLeft(): number {
+    const totalPositive = this.getShapTotalPositiveValue();
+    const calculatedFinal = this.getShapSummaryCalculatedFinal();
+    const left = calculatedFinal - totalPositive;
+    return Math.min(Math.max(left, 0), 1) * 100;
+  }
+
+  getShapSummaryPositiveWidth(): number {
+    const totalPositive = this.getShapTotalPositiveValue();
+    return Math.min(Math.max(totalPositive, 0), 1) * 100;
   }
 
   getShapFinalValue(): number {

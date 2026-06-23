@@ -320,14 +320,16 @@
         <div class="shap-summary-track">
           <div class="shap-baseline" [style.left.%]="getShapSummaryBasePercent()"></div>
           <div
+            *ngIf="getShapSummaryPositiveWidth() > 0"
             class="shap-summary-bar positive"
-            [style.left.%]="0"
-            [style.width.%]="getShapSummaryFinalPercent()"
+            [style.left.%]="getShapSummaryPositiveLeft()"
+            [style.width.%]="getShapSummaryPositiveWidth()"
           ></div>
           <div
+            *ngIf="getShapSummaryNegativeWidth() > 0"
             class="shap-summary-bar negative"
-            [style.left.%]="getShapSummaryFinalPercent()"
-            [style.width.%]="100 - getShapSummaryFinalPercent()"
+            [style.left.%]="getShapSummaryNegativeLeft()"
+            [style.width.%]="getShapSummaryNegativeWidth()"
           ></div>
           <div class="shap-summary-indicator" [style.left.%]="getShapSummaryFinalPercent()"></div>
         </div>
