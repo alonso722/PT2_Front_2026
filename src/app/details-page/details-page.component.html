@@ -289,6 +289,59 @@
         {{ iaMensaje }}
       </p>
     </div>
+
+    <div *ngIf="iaResultado !== null && shapAccumulated.length > 0" class="shap-chart-container">
+      <div class="shap-chart-header">
+        <div>
+          <h4>Gráfica SHAP</h4>
+          <p class="shap-base-info">
+            <span>Base: {{ shapBase | number:'1.2-2' }}</span>
+            <span>Score IA: {{ iaResultado | number:'1.2-2' }}</span>
+          </p>
+        </div>
+      </div>
+
+      <div class="shap-row" *ngFor="let item of shapAccumulated">
+        <div class="shap-label">{{ item.feature }}</div>
+        <div class="shap-bar-track">
+          <div class="shap-baseline" [style.left.%]="getShapOriginPercent()"></div>
+          <div
+            class="shap-bar"
+            [ngClass]="{ positive: item.value >= 0, negative: item.value < 0 }"
+            [style.left.%]="getShapBarLeft(item.value)"
+            [style.width.%]="getShapWidth(item.value)"
+          ></div>
+        </div>
+        <div class="shap-value">{{ item.value | number:'1.4-4' }}</div>
+      </div>
+
+      <div class="shap-summary">
+        <div class="shap-summary-title">Resumen SHAP</div>
+        <div class="shap-summary-track">
+          <div class="shap-baseline" [style.left.%]="getShapSummaryBasePercent()"></div>
+          <div
+            class="shap-summary-bar positive"
+            [style.left.%]="0"
+            [style.width.%]="getShapSummaryFinalPercent()"
+          ></div>
+          <div
+            class="shap-summary-bar negative"
+            [style.left.%]="getShapSummaryFinalPercent()"
+            [style.width.%]="100 - getShapSummaryFinalPercent()"
+          ></div>
+          <div class="shap-summary-indicator" [style.left.%]="getShapSummaryFinalPercent()"></div>
+        </div>
+        <div class="shap-summary-axis">
+          <div class="shap-summary-axis-tick" style="left: 0%">0</div>
+          <div class="shap-summary-axis-tick" style="left: 70%">0.7</div>
+          <div class="shap-summary-axis-tick" style="left: 100%">1</div>
+        </div>
+        <div class="shap-summary-values">
+          <span>Base: {{ shapBase | number:'1.2-2' }}</span>
+          <span>Score final: {{ getShapDisplayScore() | number:'1.2-2' }}</span>
+        </div>
+      </div>
+    </div>
   </div>
 
   <div *ngIf="!solicitud" style="padding: 24px; color: white">

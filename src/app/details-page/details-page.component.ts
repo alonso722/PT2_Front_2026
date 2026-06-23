@@ -21,6 +21,7 @@ export class DetailsPageComponent implements OnInit {
   creditsByRfc: any[] = [];
   esfuerzo: number = 0;
   esfuerzoAlto: boolean = false;
+  Math = Math;
 
   totalGastos: number = 0;
   ingresoDisponible: number = 0;
@@ -29,6 +30,13 @@ export class DetailsPageComponent implements OnInit {
   iaResultado: number | null = null;
   iaMensaje: string = '';
   iaColor: string = '';
+
+  shapBase = 0.7;
+  shapFinal = 0;
+  shapValues: any[] = [];
+  shapAccumulated: any[] = [];
+  shapMin = 0;
+  shapMax = 0;
 
   documentChecks: Record<string, boolean> = {
     domicile: false,
@@ -280,6 +288,83 @@ export class DetailsPageComponent implements OnInit {
     return catalogo[key] ?? fallback;
   }
 
+  getShapOriginPercent(): number {
+    return Math.min(Math.max(this.shapBase, 0), 1) * 100;
+  }
+
+  getShapScale(): number {
+    const origin = this.getShapOriginPercent();
+    const maxRight = 100 - origin;
+    const maxLeft = origin;
+
+    const positives = this.shapValues
+      .filter(item => item.value > 0)
+      .map(item => item.value);
+    const negatives = this.shapValues
+      .filter(item => item.value < 0)
+      .map(item => Math.abs(item.value));
+
+    const maxPos = positives.length ? Math.max(...positives) : 0;
+    const maxNeg = negatives.length ? Math.max(...negatives) : 0;
+
+    const scaleRight = maxPos > 0 ? maxPos / maxRight : 0;
+    const scaleLeft = maxNeg > 0 ? maxNeg / maxLeft : 0;
+
+    return Math.max(scaleRight, scaleLeft, 0.000001);
+  }
+
+  getShapWidth(value: number): number {
+    const scale = this.getShapScale();
+    const origin = this.getShapOriginPercent();
+    const width = Math.abs(value) / scale;
+    return value >= 0 ? Math.min(width, 100 - origin) : Math.min(width, origin);
+  }
+
+  getShapBarLeft(value: number): number {
+    const origin = this.getShapOriginPercent();
+    return value >= 0 ? origin : origin - this.getShapWidth(value);
+  }
+
+  getShapPositiveTotal(): number {
+    return this.shapValues.reduce(
+      (sum, item) => sum + Math.max(0, Number(item.value || 0)),
+      0
+    );
+  }
+
+  getShapNegativeTotal(): number {
+    return this.shapValues.reduce(
+      (sum, item) => sum + Math.max(0, -Number(item.value || 0)),
+      0
+    );
+  }
+
+  getShapTotalValue(): number {
+    return this.shapValues.reduce((sum, item) => sum + Number(item.value || 0), 0);
+  }
+
+  getShapSummaryBasePercent(): number {
+    return Math.min(Math.max(this.shapBase, 0), 1) * 100;
+  }
+
+  getNormalizedIaResultado(): number {
+    const result = Number(this.iaResultado ?? this.shapBase);
+    return result > 1 ? result / 100 : result;
+  }
+
+  getShapDisplayScore(): number {
+    return this.getNormalizedIaResultado();
+  }
+
+  getShapSummaryFinalPercent(): number {
+    const finalValue = this.getNormalizedIaResultado();
+    return Math.min(Math.max(finalValue, 0), 1) * 100;
+  }
+
+  getShapFinalValue(): number {
+    return +Number(this.iaResultado ?? this.shapBase).toFixed(4);
+  }
+
   async aprobarSolicitud(): Promise<void> {
     const rawToken = localStorage.getItem('accessToken');
     let token = '';
@@ -345,6 +430,16 @@ export class DetailsPageComponent implements OnInit {
   }
   openInNewTab(url: string): void {
     window.open(url, '_blank');
+  }
+
+  getScale(): number {
+    const range = this.shapMax - this.shapMin;
+    return range === 0 ? 1 : range;
+  }
+
+  getPercent(value: number): number {
+    const total = this.shapMax - this.shapMin;
+    return total === 0 ? 0 : ((value - this.shapMin) / total) * 100;
   }
 
   async procesarIA(): Promise<void> {
@@ -452,6 +547,27 @@ export class DetailsPageComponent implements OnInit {
       );
       console.log(response.data)
       resultadoIA = response.data?.data?.score;
+      this.shapValues = response.data?.data?.shap || [];
+      const values = this.shapValues.map(v => v.value);
+
+      this.shapMin = Math.min(...values);
+      this.shapMax = Math.max(...values);
+      let current = this.shapBase;
+
+
+      let acc = 0;
+
+      this.shapAccumulated = this.shapValues.map(item => {
+        const start = acc;
+        const end = acc + item.value;
+        acc = end;
+
+        return {
+          ...item,
+          start,
+          end
+        };
+      });
     } catch (error) {
       console.error('Error al obtener solicitud por ID:', error);
     }
