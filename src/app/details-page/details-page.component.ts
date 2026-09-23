@@ -553,27 +553,21 @@ export class DetailsPageComponent implements OnInit {
 
     const output = {
       relation: this.esfuerzoAlto,
-      FLAG_OWN_CAR: [ownCar],
-      FLAG_OWN_REALTY: [ownRealty],
-      CNT_CHILDREN: [CNT_CHILDREN],
-      AMT_INCOME_TOTAL: [AMT_INCOME_TOTAL],
-      NAME_INCOME_TYPE: [amountType],
-      NAME_EDUCATION_TYPE: [
-        this.getValorCatalogo(catalogos.education, this.solicitud.education, 3),
-      ],
-      NAME_FAMILY_STATUS: [
-        this.getValorCatalogo(catalogos.family, this.solicitud.civil_status, 1),
-      ],
-      NAME_HOUSING_TYPE: [houseType],
-      DAYS_BIRTH: [12005],
-      DAYS_EMPLOYED: [4542],
-      OCCUPATION_TYPE: [
-        this.getValorCatalogo(catalogos.ocupation, this.solicitud.ocupation, 3),
-      ],
-      CNT_FAM_MEMBERS: [this.solicitud.count_family_members],
-      CNT_ADULTS: [CNT_ADULTS],
-      AMT_INCOME_PER_CHILDREN: [AMT_INCOME_PER_CHILDREN],
-      AMT_INCOME_PER_FAM_MEMBER: [AMT_INCOME_PER_FAM_MEMBER],
+      FLAG_OWN_CAR: [0.0],
+      FLAG_OWN_REALTY: [0.0],
+      CNT_CHILDREN: [0.0],
+      AMT_INCOME_TOTAL: [427500.0],
+      NAME_INCOME_TYPE: [0.0],
+      NAME_EDUCATION_TYPE: [0.0],
+      NAME_FAMILY_STATUS: [0.0],
+      NAME_HOUSING_TYPE: [0.0],
+      DAYS_BIRTH: [12005.0],
+      DAYS_EMPLOYED: [4542.0],
+      OCCUPATION_TYPE: [0.0],
+      CNT_FAM_MEMBERS: [2.0],
+      CNT_ADULTS: [2.0],
+      AMT_INCOME_PER_CHILDREN: [0.0],
+      AMT_INCOME_PER_FAM_MEMBER: [213750.0]
     };
 
     console.log('Datos para IA:', output);

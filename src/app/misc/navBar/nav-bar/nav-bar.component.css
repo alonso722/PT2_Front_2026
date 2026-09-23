@@ -25,6 +25,76 @@ nz-sider nz-menu ::ng-deep .anticon {
   color: #53E3ED !important;
 }
 
+/* Default icon color when menu collapsed (so icons stay visible) */
+::ng-deep .ant-menu-inline-collapsed nz-sider nz-menu ::ng-deep .anticon,
+::ng-deep .ant-menu-inline-collapsed .anticon {
+  color: #53E3ED !important;
+}
+
 .disabled {
   opacity: 0.5;
+}
+
+/* Active and hover (non-collapsed): whole item background becomes turquoise,
+   link text turns white and the icon becomes nav-bg grey so it stays visible. */
+::ng-deep .ant-menu-item,
+::ng-deep .ant-menu-submenu-title {
+  position: relative;
+}
+
+/* Active and hover: whole item background becomes turquoise, text white,
+   icon grey — applies both collapsed and expanded to avoid stray bars. */
+::ng-deep .ant-menu-item-selected,
+::ng-deep .ant-menu-item:hover,
+::ng-deep .ant-menu-submenu-title:hover {
+  background-color: #53E3ED !important;
+}
+
+::ng-deep .ant-menu-item-selected a,
+::ng-deep .ant-menu-item:hover a,
+::ng-deep .ant-menu-submenu-title:hover {
+  color: #ffffff !important;
+}
+
+::ng-deep .ant-menu-item-selected .anticon,
+::ng-deep .ant-menu-item:hover .anticon,
+::ng-deep .ant-menu-submenu-title:hover .anticon {
+  color: #303135 !important;
+}
+
+/* Smooth transitions */
+::ng-deep .ant-menu-item a,
+::ng-deep .ant-menu-item .anticon,
+::ng-deep .ant-menu-submenu-title {
+  transition: background-color 0.15s ease, color 0.15s ease;
+}
+
+/* Ensure no gray block appears behind icons or anchors: force transparent backgrounds */
+::ng-deep .ant-menu-item a,
+::ng-deep .ant-menu-item > a > span,
+::ng-deep .ant-menu-item .anticon,
+::ng-deep .ant-menu-item span {
+  background: transparent !important;
+  box-shadow: none !important;
+}
+
+/* When item is active/hover, the whole li gets blue but children keep transparent backgrounds
+   so only the icon's color changes (to grey) and text becomes white. */
+::ng-deep .ant-menu-item-selected,
+::ng-deep .ant-menu-item:hover {
+  background-color: #53E3ED !important;
+}
+
+::ng-deep .ant-menu-item-selected a,
+::ng-deep .ant-menu-item:hover a,
+::ng-deep .ant-menu-item-selected span,
+::ng-deep .ant-menu-item:hover span {
+  background: transparent !important;
+  color: #ffffff !important;
+}
+
+/* Make sure icon SVG inherits color properly */
+::ng-deep .ant-menu-item .anticon svg {
+  fill: currentColor !important;
+  stroke: currentColor !important;
 }

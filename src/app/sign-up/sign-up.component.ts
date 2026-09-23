@@ -13,6 +13,7 @@ import { NzSelectModule } from 'ng-zorro-antd/select';
 import { NzCheckboxModule } from 'ng-zorro-antd/checkbox';
 import { NzInputNumberModule } from 'ng-zorro-antd/input-number';
 import { NzMessageService, NzMessageModule } from 'ng-zorro-antd/message';
+import { Router } from '@angular/router';
 import { TopMenuComponent } from '../misc/topMenu/top-menu/top-menu.component';
 import { NzIconModule } from 'ng-zorro-antd/icon';
 import { NzToolTipModule } from 'ng-zorro-antd/tooltip';
@@ -44,7 +45,7 @@ import { environment } from '../../environments/environment';
 export class SignUpComponent {
   validateForm: FormGroup;
 
-  constructor(private fb: FormBuilder, private message: NzMessageService) {
+  constructor(private fb: FormBuilder, private message: NzMessageService, private router: Router) {
     this.validateForm = this.fb.group(
       {
         firstname: ['', Validators.required],
@@ -214,6 +215,7 @@ export class SignUpComponent {
         this.message.success('Formulario enviado correctamente');
         this.validateForm.reset();
         this.updateFamilyMembersCount();
+        this.router.navigateByUrl('/');
       } catch (error: any) {
         console.error('Error al enviar formulario:', error);
 

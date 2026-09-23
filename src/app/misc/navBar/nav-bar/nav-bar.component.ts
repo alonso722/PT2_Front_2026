@@ -15,11 +15,31 @@ import axios from 'axios';
   styleUrls: ['./nav-bar.component.css']
 })
 export class NavBarComponent implements OnInit {
+  selectedKey = '';
   userType: 'requester' | 'analyst' | 'supervisor' = 'requester';
   isCollapsed = true;
   solicitudesOriginal: any[] = [];
 
   constructor(private router: Router) {}
+
+  ngAfterViewInit(): void {
+    this.updateSelectedKey(this.router.url);
+    this.router.events.subscribe((ev: any) => {
+      if (ev?.constructor?.name === 'NavigationEnd') {
+        this.updateSelectedKey(ev.urlAfterRedirects || ev.url);
+      }
+    });
+  }
+
+  private updateSelectedKey(url: string): void {
+    if (!url) return;
+    if (url.startsWith('/dashboard')) this.selectedKey = 'dashboard';
+    else if (url.startsWith('/requester-edit')) this.selectedKey = 'requester-edit';
+    else if (url.startsWith('/form')) this.selectedKey = 'form';
+    else if (url.startsWith('/sign-staff')) this.selectedKey = 'sign-staff';
+    else if (url.startsWith('/login')) this.selectedKey = 'login';
+    else this.selectedKey = '';
+  }
 
 ngOnInit(): void {
   if (typeof window !== 'undefined') {

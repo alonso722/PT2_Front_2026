@@ -5,7 +5,7 @@
       style="cursor: pointer; margin-left: 15px;"
       (click)="toggleCollapsed()"
     >
-      <i nz-icon [nzType]="isCollapsed ? 'menu-unfold' : 'menu-fold'" nzTheme="outline" style="font-size: 20px; color: #53E3ED;"></i>
+      <i nz-icon [nzType]="isCollapsed ? 'menu-unfold' : 'menu-fold'" nzTheme="outline" style="font-size: 20px;"></i>
     </span>
 
     <span style="position: absolute; left: 50%; transform: translateX(-50%); font-weight: 600;">
@@ -17,7 +17,7 @@
   <nz-sider
     [nzCollapsed]="isCollapsed"
     nzTheme="dark"
-    [nzWidth]="200"
+    [nzWidth]="250"
     [nzCollapsedWidth]="80"
     style="height: 100vh; position: fixed; top: 64px; left: 0; z-index: 1000;"
   >
@@ -28,21 +28,23 @@
       [nzInlineCollapsed]="isCollapsed"
       style="height: 100%; border-right: 0;"
     >
-      <li nz-menu-item (click)="navigateTo('/dashboard')" title="Inicio">
-        <i nz-icon nzType="home" nzTheme="outline" style="color: #53E3ED; font-size: 18px; margin-right: 10px;"></i>
+      <li nz-menu-item nzKey="dashboard" (click)="navigateTo('/dashboard')" title="Inicio" [class.ant-menu-item-selected]="selectedKey==='dashboard'">
+        <i nz-icon nzType="home" nzTheme="outline" style="font-size: 18px; margin-right: 10px;"></i>
         <span *ngIf="!isCollapsed">Inicio</span>
       </li>
 
-      <li nz-menu-item (click)="navigateTo('/requester-edit')" title="Mi información">
-        <i nz-icon nzType="user" nzTheme="outline" style="color: #53E3ED; font-size: 18px; margin-right: 10px;"></i>
+      <li nz-menu-item nzKey="requester-edit" (click)="navigateTo('/requester-edit')" title="Mi información" [class.ant-menu-item-selected]="selectedKey==='requester-edit'">
+        <i nz-icon nzType="user" nzTheme="outline" style="font-size: 18px; margin-right: 10px;"></i>
         <span *ngIf="!isCollapsed">Mi información</span>
       </li>
 
       <li 
         nz-menu-item 
+        nzKey="form"
         (click)="!hasActiveSolicitud && navigateTo('/form')" 
         [nzDisabled]="hasActiveSolicitud"
         [title]="hasActiveSolicitud ? 'Ya tiene una solicitud en proceso' : 'Solicitud de crédito'"
+        [class.ant-menu-item-selected]="selectedKey==='form'"
       >
         <i 
           nz-icon 
@@ -56,13 +58,13 @@
         </span>
       </li>
 
-      <li *ngIf="userType === 'supervisor'" nz-menu-item (click)="navigateTo('/sign-staff')" title="Registro de colaboradores">
-        <i nz-icon nzType="team" nzTheme="outline" style="color: #53E3ED; font-size: 18px; margin-right: 10px;"></i>
+      <li *ngIf="userType === 'supervisor'" nz-menu-item nzKey="sign-staff" (click)="navigateTo('/sign-staff')" title="Registro de colaboradores" [class.ant-menu-item-selected]="selectedKey==='sign-staff'">
+        <i nz-icon nzType="team" nzTheme="outline" style="font-size: 18px; margin-right: 10px;"></i>
         <span *ngIf="!isCollapsed">Registro de colaboradores</span>
       </li>
 
-      <li nz-menu-item (click)="navigateTo('/login')" title="Salir">
-        <i nz-icon nzType="logout" nzTheme="outline" style="color: #53E3ED; font-size: 18px; margin-right: 10px;"></i>
+      <li nz-menu-item nzKey="login" (click)="navigateTo('/login')" title="Salir" [class.ant-menu-item-selected]="selectedKey==='login'">
+        <i nz-icon nzType="logout" nzTheme="outline" style="font-size: 18px; margin-right: 10px;"></i>
         <span *ngIf="!isCollapsed">Salir</span>
       </li>
     </ul>
