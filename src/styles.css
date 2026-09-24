@@ -56,3 +56,16 @@
 :host ::ng-deep .chartjs-render-monitor .legend text {
   fill: white !important;
 }
+
+/* Global page background and layout fixes to avoid white bars */
+html, body, app-root {
+  height: 100%;
+  margin: 0;
+  background-color: #303135 !important;
+  overflow-x: hidden;
+}
+
+/* Ensure root app container fills viewport */
+app-root > * {
+  min-height: 100vh;
+}

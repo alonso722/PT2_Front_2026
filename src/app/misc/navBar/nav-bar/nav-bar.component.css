@@ -90,7 +90,7 @@ nz-sider nz-menu ::ng-deep .anticon {
 ::ng-deep .ant-menu-item-selected span,
 ::ng-deep .ant-menu-item:hover span {
   background: transparent !important;
-  color: #ffffff !important;
+  color: #303135 !important;
 }
 
 /* Make sure icon SVG inherits color properly */

@@ -3,6 +3,7 @@ import { NavBarComponent } from '../misc/navBar/nav-bar/nav-bar.component';
 import { CommonModule } from '@angular/common';
 import { SolicitudService } from '../services/solicitud.service';
 import { NzMessageModule, NzMessageService } from 'ng-zorro-antd/message';
+import { NzButtonModule } from 'ng-zorro-antd/button';
 import axios from 'axios';
 import { FormsModule } from '@angular/forms';
 
@@ -11,7 +12,7 @@ import { environment } from '../../environments/environment';
 @Component({
   selector: 'app-details-page',
   standalone: true,
-  imports: [CommonModule, NavBarComponent, FormsModule],
+  imports: [CommonModule, NavBarComponent, FormsModule, NzMessageModule, NzButtonModule],
   templateUrl: './details-page.component.html',
   styleUrl: './details-page.component.css',
 })
@@ -30,6 +31,7 @@ export class DetailsPageComponent implements OnInit {
   iaResultado: number | null = null;
   iaMensaje: string = '';
   iaColor: string = '';
+  iaLoading = false;
 
   shapBase = 0.7;
   shapFinal = 0;
@@ -466,7 +468,7 @@ export class DetailsPageComponent implements OnInit {
           },
         }
       );
-      this.message.success('Solicitud rechazada');
+      this.message.error('Solicitud rechazada');
     } catch (error) {
       console.error('Error al rechazar solicitud:', error);
     }
@@ -488,13 +490,25 @@ export class DetailsPageComponent implements OnInit {
   async procesarIA(): Promise<void> {
     if (!this.solicitud) return;
     const requiredDocs = ['domicile', 'birth', 'ine'];
-      for (const doc of requiredDocs) {
-        const url = this.solicitud?.[`url_${doc}`];
-        if (url && !this.documentChecks[doc]) {
-          this.message.error(`Falta marcar el documento: ${doc.toUpperCase()}`);
-          return;
-        }
+    const docLabels: Record<string, string> = {
+      domicile: 'Comprobante de domicilio',
+      birth: 'Acta de nacimiento',
+      ine: 'INE',
+      income: 'Comprobante de ingresos',
+      guarantee: 'Comprobante de garantía'
+    };
+
+    for (const doc of requiredDocs) {
+      const url = this.solicitud?.[`url_${doc}`];
+      if (url && !this.documentChecks[doc]) {
+        const label = docLabels[doc] || doc;
+        this.message.error(`Revise y marque el documento: ${label}`);
+        return;
       }
+    }
+
+    this.iaLoading = true;
+    try {
 
     const rawToken = localStorage.getItem('accessToken');
     let token = '';
@@ -639,6 +653,11 @@ export class DetailsPageComponent implements OnInit {
     } else {
       this.iaMensaje = 'Solicitud Aprobada por IA';
       this.iaColor = '#2a8f2a';
+    }
+    } catch (error) {
+      console.error('Error procesando IA:', error);
+    } finally {
+      this.iaLoading = false;
     }
   }
 }

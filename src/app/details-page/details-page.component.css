@@ -19,16 +19,33 @@ app-nav-bar {
   
 }
 
-button {
-  margin-left: 45%;
-  background-color: #53E3ED !important;
-  color: #303135 !important;
-  border: none !important;
-  border-radius: 8px !important;
-  padding: 2px 20px !important;
-  font-weight: bold;
-  transition: background-color 0.3s ease;
-  width: 150px;
+ button {
+   background-color: #53E3ED !important;
+   color: #303135 !important;
+   border: none !important;
+   border-radius: 8px !important;
+   padding: 6px 14px !important;
+   font-weight: bold;
+   transition: background-color 0.3s ease;
+   width: 150px;
+ }
+
+/* Specific IA button: allow wider width and prevent overflow */
+.ia-button {
+  display: block;
+  margin: 16px auto 0 auto; /* center horizontally */
+  width: auto !important;
+  max-width: 90%;
+  min-width: 160px;
+  padding: 6px 14px !important;
+  white-space: normal; /* allow wrapping */
+  word-break: break-word;
+  text-align: center;
+}
+
+/* Ensure the container doesn't force overflow */
+.ia-button::-moz-focus-inner {
+  border: 0;
 }
 
 section {

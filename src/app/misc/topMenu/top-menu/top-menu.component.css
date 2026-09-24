@@ -13,3 +13,66 @@
 ::ng-deep .ant-menu-submenu-title:hover {
     color: white !important;
 }
+
+/* Make top-menu items slightly shorter and apply hover background like side menu */
+::ng-deep .ant-menu-horizontal {
+    line-height: 44px;
+    border-bottom: none !important;
+    margin-bottom: 1px !important;
+}
+
+::ng-deep .ant-menu-horizontal .ant-menu-item {
+    padding: 6px 14px !important;
+    height: 44px !important;
+    display: inline-flex;
+    align-items: center;
+    transition: background-color 0.15s ease, color 0.15s ease;
+}
+
+/* Hover: turquoise background and dark text to match side hover effect */
+::ng-deep .ant-menu-horizontal .ant-menu-item:hover {
+    background-color: #53E3ED !important;
+}
+
+::ng-deep .ant-menu-horizontal .ant-menu-item:hover a {
+    color: #303135 !important;
+}
+
+/* Force hover and selected styles with higher specificity to avoid conflicts */
+::ng-deep .ant-menu-horizontal .ant-menu-item:hover,
+::ng-deep .ant-menu-horizontal .ant-menu-item.ant-menu-item-selected {
+    background-color: #53E3ED !important;
+}
+
+::ng-deep .ant-menu-horizontal .ant-menu-item:hover > a,
+::ng-deep .ant-menu-horizontal .ant-menu-item.ant-menu-item-selected > a {
+    color: #303135 !important;
+    background: transparent !important;
+}
+
+/* Ensure anchors don't introduce their own background or box-shadow */
+::ng-deep .ant-menu-horizontal .ant-menu-item a {
+    background: transparent !important;
+    box-shadow: none !important;
+}
+
+/* Remove strong blue underline/indicator that causes overflow */
+::ng-deep .ant-menu-horizontal .ant-menu-item a,
+::ng-deep .ant-menu-horizontal .ant-menu-item {
+    text-decoration: none !important;
+}
+
+/* Remove any ::after or indicator pseudo-elements used by the menu */
+::ng-deep .ant-menu-horizontal .ant-menu-item::after,
+::ng-deep .ant-menu-horizontal .ant-menu-item-selected::after,
+::ng-deep .ant-menu-horizontal .ant-menu-item a::after {
+    display: none !important;
+    content: none !important;
+}
+
+/* Remove focus outlines and box-shadows on anchors */
+::ng-deep .ant-menu-horizontal .ant-menu-item:focus,
+::ng-deep .ant-menu-horizontal .ant-menu-item a:focus {
+    outline: none !important;
+    box-shadow: none !important;
+}

@@ -45,6 +45,7 @@ import { environment } from '../../../../environments/environment';
   styleUrls: ['./login.component.css'],
 })
 export class LoginComponent {
+  loading = false;
   validateForm: FormGroup;
   isRecoverModalVisible = false;
   emailSent = false;
@@ -152,10 +153,15 @@ export class LoginComponent {
     this.router.navigate(['/sign-up']);
   }
 
-  submitForm(): void {
+  async submitForm(): Promise<void> {
     if (this.validateForm.valid) {
       const { userName, password } = this.validateForm.value;
-        this.login(userName, password);
+      this.loading = true;
+      try {
+        await this.login(userName, password);
+      } finally {
+        this.loading = false;
+      }
     } else {
       Object.values(this.validateForm.controls).forEach((control) => {
         if (control.invalid) {

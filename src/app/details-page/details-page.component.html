@@ -253,18 +253,9 @@
       </p>
     </section>
 
-    <button
-      (click)="procesarIA()"
-      style="
-        margin-top: 16px;
-        padding: 10px 20px;
-        background-color: #333;
-        color: white;
-        border: none;
-        border-radius: 8px;
-      "
-    >
-      Procesar con IA
+    <button nz-button class="ia-button" [nzType]="'default'" (click)="procesarIA()" [nzLoading]="iaLoading"
+      style="margin-top: 16px; padding: 10px 20px; background-color: #333; color: white; border: none; border-radius: 8px;">
+      Procesar con la herramienta de inteligencia artificial
     </button>
 
     <div
