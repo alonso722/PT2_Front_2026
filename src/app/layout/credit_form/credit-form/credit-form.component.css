@@ -262,6 +262,57 @@ select option {
   gap: 20px;
 }
 
+/* Upload box styles */
+.upload-box {
+  background: #3a3b3e;
+  border: 1px solid rgba(255,255,255,0.06);
+  padding: 12px;
+  border-radius: 10px;
+  box-shadow: inset 0 1px 0 rgba(255,255,255,0.02);
+}
+
+.upload-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.upload-row.locked {
+  opacity: 0.6;
+  pointer-events: none;
+}
+
+.upload-row input[type="file"] {
+  background: transparent;
+  color: white;
+}
+
+.file-info {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-left: 8px;
+}
+
+.filename {
+  color: #cfcfcf;
+  font-size: 13px;
+  max-width: 240px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.upload-loader {
+  color: #53E3ED;
+  font-size: 18px;
+}
+
+.upload-success {
+  color: #53E3ED;
+  font-size: 18px;
+}
+
 .form-field {
   display: flex;
   flex-direction: column;
@@ -280,9 +331,22 @@ select option {
   max-width: 900px; /* o el tamaño que prefieras */
 }
 
-.guarantee-data-section {
+ .guarantee-data-section {
   display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 20px;
-  max-width: 600px; /* tamaño menor que crédito */
+  grid-template-columns: minmax(220px, 1fr) 160px;
+  gap: 24px;
+  max-width: 720px; /* reducir desplazamiento a la derecha */
+  align-items: center;
+ }
+
+/* make guarantee select slightly wider to avoid truncation */
+.guarantee-data-section select {
+  min-width: 220px;
+  max-width: 340px;
+}
+
+/* required star for guaranteeValue when validator is set */
+.guarantee-required-label::after {
+  content: ' *';
+  color: #ff4d4f; /* red asterisk */
 }

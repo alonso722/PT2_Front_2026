@@ -40,7 +40,7 @@
       <nz-form-item>
         <nz-form-label nzRequired nzFor="guarantee">Tipo de garantía</nz-form-label>
         <nz-form-control>
-          <select nz-select formControlName="guarantee" id="guarantee" (ngModelChange)="onGuaranteeChange()">
+          <select nz-select formControlName="guarantee" id="guarantee">
             <option value="mueble">Mueble (Bien movible)</option>
             <option value="inmueble">Inmueble (Bien inamovible)</option>
             <option value="noGuarantee">Sin garantía</option>
@@ -49,7 +49,7 @@
       </nz-form-item>
 
       <nz-form-item>
-        <nz-form-label  nzFor="guaranteeValue" type="number">Valor de la garantía</nz-form-label>
+        <nz-form-label [nzRequired]="guaranteeValueRequired" nzFor="guaranteeValue" type="number">Valor de la garantía</nz-form-label>
         <nz-form-control>
           <nz-input-number [nzMin]="0" [nzStep]="1000" nz-input formControlName="guaranteeValue" id="guaranteeValue" type="number" />
         </nz-form-control>
@@ -71,29 +71,64 @@
 
         <!-- Inputs debajo de la lista -->
         <div class="document-columns">
-          <div class="form-field">
+          <div class="form-field upload-box">
             <label>INE</label>
-            <input type="file" (change)="handleFileChange($event, 'ine')" />
+            <div class="upload-row" [class.locked]="uploadingField && uploadingField !== 'ine'">
+              <input type="file" (change)="handleFileChange($event, 'ine')" [disabled]="uploadingField && uploadingField !== 'ine'" />
+              <div class="file-info">
+                  <span class="filename">{{ documentUrls['ine'] ? 'Archivo cargado' : '' }}</span>
+                <i *ngIf="uploadingField === 'ine'" nz-icon nzType="loading" class="upload-loader"></i>
+                <i *ngIf="documentUrls['ine'] && uploadingField !== 'ine'" nz-icon nzType="check-circle" class="upload-success"></i>
+              </div>
+            </div>
           </div>
 
-          <div class="form-field">
+          <div class="form-field upload-box">
             <label>Acta de nacimiento</label>
-            <input type="file" (change)="handleFileChange($event, 'birth')" />
+            <div class="upload-row" [class.locked]="uploadingField && uploadingField !== 'birth'">
+              <input type="file" (change)="handleFileChange($event, 'birth')" [disabled]="uploadingField && uploadingField !== 'birth'" />
+              <div class="file-info">
+                  <span class="filename">{{ documentUrls['birth'] ? 'Archivo cargado' : '' }}</span>
+                <i *ngIf="uploadingField === 'birth'" nz-icon nzType="loading" class="upload-loader"></i>
+                <i *ngIf="documentUrls['birth'] && uploadingField !== 'birth'" nz-icon nzType="check-circle" class="upload-success"></i>
+              </div>
+            </div>
           </div>
 
-          <div class="form-field">
+          <div class="form-field upload-box">
             <label>Comprobante de domicilio</label>
-            <input type="file" (change)="handleFileChange($event, 'address')" />
+            <div class="upload-row" [class.locked]="uploadingField && uploadingField !== 'address'">
+              <input type="file" (change)="handleFileChange($event, 'address')" [disabled]="uploadingField && uploadingField !== 'address'" />
+              <div class="file-info">
+                  <span class="filename">{{ documentUrls['address'] ? 'Archivo cargado' : '' }}</span>
+                <i *ngIf="uploadingField === 'address'" nz-icon nzType="loading" class="upload-loader"></i>
+                <i *ngIf="documentUrls['address'] && uploadingField !== 'address'" nz-icon nzType="check-circle" class="upload-success"></i>
+              </div>
+            </div>
           </div>
 
-          <div class="form-field" *ngIf="showGuaranteeDoc">
+          <div class="form-field upload-box" *ngIf="showGuaranteeDoc">
             <label>Comprobante de garantía</label>
-            <input type="file" (change)="handleFileChange($event, 'guaranteeDoc')" />
+            <div class="upload-row" [class.locked]="uploadingField && uploadingField !== 'guaranteeDoc'">
+              <input type="file" (change)="handleFileChange($event, 'guaranteeDoc')" [disabled]="uploadingField && uploadingField !== 'guaranteeDoc'" />
+              <div class="file-info">
+                  <span class="filename">{{ documentUrls['guaranteeDoc'] ? 'Archivo cargado' : '' }}</span>
+                <i *ngIf="uploadingField === 'guaranteeDoc'" nz-icon nzType="loading" class="upload-loader"></i>
+                <i *ngIf="documentUrls['guaranteeDoc'] && uploadingField !== 'guaranteeDoc'" nz-icon nzType="check-circle" class="upload-success"></i>
+              </div>
+            </div>
           </div>
 
-          <div class="form-field">
+          <div class="form-field upload-box">
             <label>Comprobante de ingresos (últimos 3 meses)</label>
-            <input type="file" (change)="handleFileChange($event, 'income')" />
+            <div class="upload-row" [class.locked]="uploadingField && uploadingField !== 'income'">
+              <input type="file" (change)="handleFileChange($event, 'income')" [disabled]="uploadingField && uploadingField !== 'income'" />
+              <div class="file-info">
+                  <span class="filename">{{ documentUrls['income'] ? 'Archivo cargado' : '' }}</span>
+                <i *ngIf="uploadingField === 'income'" nz-icon nzType="loading" class="upload-loader"></i>
+                <i *ngIf="documentUrls['income'] && uploadingField !== 'income'" nz-icon nzType="check-circle" class="upload-success"></i>
+              </div>
+            </div>
           </div>
         </div>
       </div>

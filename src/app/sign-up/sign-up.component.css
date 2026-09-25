@@ -249,3 +249,66 @@ select option {
   background-color: #3ecdd9 !important; /* Versión más oscura al pasar el mouse */
 }
 
+/* Mejoras visuales para checkboxes y textarea de dirección */
+
+/* Checkbox wrapper color y espaciado */
+::ng-deep .ant-checkbox-wrapper {
+  color: white;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+
+/* Checkbox apariencia personalizada: fondo igual que inputs y marca turquesa */
+::ng-deep .ant-checkbox-inner {
+  width: 18px !important;
+  height: 18px !important;
+  border-radius: 8px !important; /* match inputs */
+  background: #3a3b3e !important; /* same as inputs */
+  border: 1px solid #ccc !important;
+  box-shadow: 3px 3px 8px rgba(0,0,0,0.15) inset;
+  transition: all 0.12s ease-in-out !important;
+}
+
+::ng-deep .ant-checkbox-wrapper:hover .ant-checkbox-inner {
+  border-color: #53E3ED !important;
+  box-shadow: 0 6px 18px rgba(83,227,237,0.06) !important;
+}
+
+::ng-deep .ant-checkbox-checked .ant-checkbox-inner {
+  background: #53E3ED !important; /* system turquoise when checked */
+  border-color: #53E3ED !important;
+  box-shadow: 0 6px 18px rgba(83,227,237,0.14) !important;
+}
+
+/* Check mark color (dark to contrast) */
+::ng-deep .ant-checkbox-checked .ant-checkbox-inner::after {
+  border-color: #303135 !important;
+}
+
+/* Texto de la etiqueta del checkbox */
+::ng-deep .ant-checkbox-wrapper span {
+  color: #ffffff;
+  font-weight: 500;
+}
+
+/* Textarea: mismo fondo que inputs y foco turquesa */
+textarea[nz-input] {
+  min-height: 100px;
+  resize: vertical;
+  border-radius: 8px;
+  padding: 10px 12px;
+  border: 1px solid #ccc;
+  background: #3a3b3e;
+  color: #ffffff;
+  box-shadow: 3px 3px 8px rgba(0,0,0,0.15) inset;
+  transition: box-shadow 0.18s ease, border-color 0.18s ease;
+}
+
+textarea[nz-input]:focus {
+  outline: none;
+  border-color: #53E3ED;
+  box-shadow: 0 8px 24px rgba(83,227,237,0.06);
+}
+
+

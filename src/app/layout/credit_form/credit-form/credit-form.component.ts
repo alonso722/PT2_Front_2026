@@ -11,6 +11,7 @@ import { NzButtonModule } from 'ng-zorro-antd/button';
 import { NzUploadModule } from 'ng-zorro-antd/upload';
 import { NzModalModule } from 'ng-zorro-antd/modal';
 import { NzInputNumberModule } from 'ng-zorro-antd/input-number';
+import { NzIconModule } from 'ng-zorro-antd/icon';
 import { NzMessageModule, NzMessageService } from 'ng-zorro-antd/message';
 import axios from 'axios';
 
@@ -30,6 +31,7 @@ import axios from 'axios';
     NzUploadModule,
     NzModalModule,
     NzMessageModule,
+    NzIconModule,
     NavBarComponent,
     NzInputNumberModule
   ],
@@ -67,8 +69,56 @@ export class CreditFormComponent {
     });
     this.validateForm.get('credit')?.valueChanges.subscribe((value) => {
       this.isMortgage = value === 'hipotecario';
+      this.applyCreditRules(value);
+    });
+
+    // React to guarantee changes to fetch guarantee-related data when needed
+    this.validateForm.get('guarantee')?.valueChanges.subscribe(() => {
+      this.onGuaranteeChange();
     });
   }
+
+  private applyCreditRules(value: string): void {
+    const guaranteeControl = this.validateForm.get('guarantee');
+    const guaranteeValueControl = this.validateForm.get('guaranteeValue');
+
+    if (value === 'prendario') {
+      guaranteeControl?.setValue('mueble', { emitEvent: true });
+      guaranteeControl?.disable({ onlySelf: true, emitEvent: true });
+      guaranteeValueControl?.setValidators([Validators.required, Validators.min(0)]);
+      this.guaranteeValueRequired = true;
+      this.showGuaranteeDoc = true;
+    } else if (value === 'hipotecario') {
+      guaranteeControl?.setValue('inmueble', { emitEvent: true });
+      guaranteeControl?.disable({ onlySelf: true, emitEvent: true });
+      guaranteeValueControl?.setValidators([Validators.required, Validators.min(0)]);
+      this.guaranteeValueRequired = true;
+      this.showGuaranteeDoc = true;
+    } else {
+      // personal
+      guaranteeControl?.enable({ emitEvent: true });
+      guaranteeValueControl?.clearValidators();
+      this.guaranteeValueRequired = false;
+      // Only show guarantee doc if user selected a guarantee other than 'noGuarantee'
+      const currentGuarantee = guaranteeControl?.value;
+      this.showGuaranteeDoc = currentGuarantee && currentGuarantee !== 'noGuarantee';
+    }
+
+    guaranteeValueControl?.updateValueAndValidity();
+
+    // If we need guarantee docs, trigger the fetch flow
+    if (this.showGuaranteeDoc) {
+      this.onGuaranteeChange();
+    } else {
+      this.lastRequestId = '';
+    }
+  }
+
+  // Field currently uploading (blocks other uploads while set)
+  uploadingField: string | null = null;
+
+  // UI flag to indicate guaranteeValue is required
+  guaranteeValueRequired: boolean = false;
 
   lastRequestId: string = '';
 
@@ -124,6 +174,13 @@ export class CreditFormComponent {
 
       this.documentFiles[type] = file;
 
+      // Block other uploads while this one is in progress
+      if (this.uploadingField) {
+        this.message.info('Espera a que termine la otra carga.');
+        return;
+      }
+      this.uploadingField = type;
+
       const rawToken = localStorage.getItem('accessToken');
       let token = '';
       if (rawToken) {
@@ -160,6 +217,7 @@ export class CreditFormComponent {
         const formData = new FormData();
         formData.append('file', file);
 
+        // show small delay for UX if needed
         await axios.post(uploadUrl, formData, {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -185,6 +243,9 @@ export class CreditFormComponent {
           error
         );
         this.message.error(`Error al subir documento ${type}`);
+      } finally {
+        // release lock
+        this.uploadingField = null;
       }
     }
   }
