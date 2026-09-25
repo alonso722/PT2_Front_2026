@@ -5,6 +5,7 @@ import { CreditFormComponent } from './layout/credit_form/credit-form/credit-for
 import { SignUpComponent } from './sign-up/sign-up.component'; 
 import { DetailsPageComponent } from './details-page/details-page.component';
 import { LoginComponent } from './auth/login/login/login.component';
+import { AuthGuard } from './auth/auth.guard';
 import { StaffSignComponent } from './staff-sign/staff-sign.component';
 import { RequesterEditComponent } from './requester-edit/requester-edit.component';
 
@@ -14,13 +15,13 @@ export const routes: Routes = [
         path: '',
         component: LoginComponent,
     },
-    {title: "Dasboard", path:'dashboard' , component: DashboardComponent},
-    {title: "Dasboard", path:'about' , component: AboutComponent},
-    {title: "Dasboard", path:'form' , component: CreditFormComponent},
+    {title: "Dasboard", path:'dashboard' , component: DashboardComponent, canActivate: [AuthGuard]},
+    {title: "Dasboard", path:'about' , component: AboutComponent, canActivate: [AuthGuard]},
+    {title: "Dasboard", path:'form' , component: CreditFormComponent, canActivate: [AuthGuard]},
     {title: "Registro", path:'sign-up' , component: SignUpComponent},
-    {title: "Detalles", path:'details' , component: DetailsPageComponent},
-    {title: "Registro de colaboradores", path:'sign-staff', component: StaffSignComponent},
-    {title: "Editar informacion", path:'requester-edit', component: RequesterEditComponent},
+    {title: "Detalles", path:'details' , component: DetailsPageComponent, canActivate: [AuthGuard]},
+    {title: "Registro de colaboradores", path:'sign-staff', component: StaffSignComponent, canActivate: [AuthGuard]},
+    {title: "Editar informacion", path:'requester-edit', component: RequesterEditComponent, canActivate: [AuthGuard]},
     {
         title: "Login",
         path: '*',

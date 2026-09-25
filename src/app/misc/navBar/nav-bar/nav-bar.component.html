@@ -63,7 +63,7 @@
         <span *ngIf="!isCollapsed">Registro de colaboradores</span>
       </li>
 
-      <li nz-menu-item nzKey="login" (click)="navigateTo('/login')" title="Salir" [class.ant-menu-item-selected]="selectedKey==='login'">
+      <li nz-menu-item nzKey="login" (click)="logout()" title="Salir" [class.ant-menu-item-selected]="selectedKey==='login'">
         <i nz-icon nzType="logout" nzTheme="outline" style="font-size: 18px; margin-right: 10px;"></i>
         <span *ngIf="!isCollapsed">Salir</span>
       </li>

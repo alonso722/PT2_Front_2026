@@ -22,6 +22,19 @@ export class NavBarComponent implements OnInit {
 
   constructor(private router: Router) {}
 
+  logout(): void {
+    try {
+      // Remove token and basic user info stored in localStorage
+      localStorage.removeItem('accessToken');
+      localStorage.removeItem('typeUser');
+      localStorage.removeItem('nameUser');
+    } catch (e) {
+      console.warn('Error removing token from storage', e);
+    }
+    // Navigate to root (login)
+    this.router.navigate(['/']);
+  }
+
   ngAfterViewInit(): void {
     this.updateSelectedKey(this.router.url);
     this.router.events.subscribe((ev: any) => {
