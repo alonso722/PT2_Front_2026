@@ -52,6 +52,13 @@ html, body {
   overflow-y: auto;
   box-sizing: border-box;
   border-right: 1px solid #3a3b3e; 
+  /* Ensure the left column fills available vertical space so empty state looks full-height */
+  min-height: calc(100vh - 520px);
+}
+
+/* hide scrollbar when empty to avoid unnecessary scroll */
+.card-container.empty {
+  overflow: hidden;
 }
 
 .custom-card {
@@ -149,6 +156,16 @@ html, body {
   user-select: none;
   padding-left: 5px;
   text-decoration: underline;
+}
+
+/* Empty state styling: center message and make container visually occupy space */
+.no-solicitudes {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start; /* keep message near top-left area visually; use center if preferred */
+  width: 100%;
+  min-height: 300px;
+  padding-left: 5%;
 }
 
 @media (max-width: 768px) {

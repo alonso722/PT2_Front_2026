@@ -14,7 +14,7 @@
     </select>
   </div>
 
-  <div class="card-container">
+  <div class="card-container" [class.empty]="!solicitudes || solicitudes.length === 0">
     <div *ngIf="!solicitudes || solicitudes.length === 0" class="no-solicitudes">
       <p style="text-align: center; font-weight: bold; color: aliceblue;">Sin solicitudes a mostrar...</p>
     </div>
@@ -49,7 +49,7 @@
   </div>
 
   <div class="charts-container" *ngIf="isBrowser && userType !== 'requester'">
-    <div>
+    <div *ngIf=" solicitudes && solicitudes.length > 0">
       <h3 style="text-align: center;">Distribución por Estatus</h3>
       <div class="chart-area">
         <canvas
@@ -61,7 +61,7 @@
       </div>
     </div>
 
-    <div>
+    <div *ngIf="solicitudes && solicitudes.length > 0">
       <h3 style="text-align: center;">Solicitudes por Tipo de Crédito</h3>
       <div class="chart-area">
         <canvas
