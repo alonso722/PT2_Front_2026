@@ -49,6 +49,8 @@ export class LoginComponent {
   validateForm: FormGroup;
   isRecoverModalVisible = false;
   emailSent = false;
+  newPasswordVisible = false;
+  confirmPasswordVisible = false;
 
   recoverForm: FormGroup;
   confirmForm: FormGroup;
@@ -94,15 +96,27 @@ export class LoginComponent {
     this.passwordVisible = !this.passwordVisible;
   }
 
+  toggleNewPasswordVisibility(): void {
+    this.newPasswordVisible = !this.newPasswordVisible;
+  }
+
+  toggleConfirmPasswordVisibility(): void {
+    this.confirmPasswordVisible = !this.confirmPasswordVisible;
+  }
+
   openRecoverModal(): void {
     this.recoverForm.reset();
     this.confirmForm.reset();
     this.emailSent = false;
+    this.newPasswordVisible = false;
+    this.confirmPasswordVisible = false;
     this.isRecoverModalVisible = true;
   }
 
   handleRecoverCancel(): void {
     this.isRecoverModalVisible = false;
+    this.newPasswordVisible = false;
+    this.confirmPasswordVisible = false;
   }
 
   passwordsMatchValidator(

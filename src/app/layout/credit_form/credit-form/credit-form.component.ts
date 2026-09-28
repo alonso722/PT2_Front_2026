@@ -13,6 +13,7 @@ import { NzModalModule } from 'ng-zorro-antd/modal';
 import { NzInputNumberModule } from 'ng-zorro-antd/input-number';
 import { NzIconModule } from 'ng-zorro-antd/icon';
 import { NzMessageModule, NzMessageService } from 'ng-zorro-antd/message';
+import { Router } from '@angular/router';
 import axios from 'axios';
 
 @Component({
@@ -42,6 +43,7 @@ export class CreditFormComponent {
   opciones0a99: number[] = Array.from({ length: 100 }, (_, i) => i);
   showGuaranteeDoc = false;
   isMortgage = false;
+  isSubmitting = false;
 
   documentFiles: { [key: string]: File | null } = {
     ine: null,
@@ -59,7 +61,11 @@ export class CreditFormComponent {
     income: null,
   };
 
-  constructor(private fb: FormBuilder, private message: NzMessageService) {
+  constructor(
+    private fb: FormBuilder,
+    private message: NzMessageService,
+    private router: Router
+  ) {
     this.validateForm = this.fb.group({
       credit: ['', Validators.required],
       term: [null, [Validators.required, Validators.min(1)]],
@@ -251,6 +257,8 @@ export class CreditFormComponent {
   }
 
   async submitForm(): Promise<void> {
+    if (this.isSubmitting) return;
+
     if (!this.validateForm.valid) {
       const errores: string[] = [];
       let { term, credit } = this.validateForm.value;
@@ -386,37 +394,44 @@ export class CreditFormComponent {
 
     const url = `${environment.REQUESTS_SERVICE_URL}`;
 
-    try {
-      const response = await axios.post(url, result, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
-      this.message.success('Solicitud creada correctamente.');
-      console.log('Respuesta:', response.data);
-
-      this.validateForm.reset();
-      this.documentFiles = {
-        ine: null,
-        birth: null,
-        address: null,
-        guaranteeDoc: null,
-        income: null,
-      };
-
-      this.documentUrls = {
-        ine: null,
-        birth: null,
-        address: null,
-        guaranteeDoc: null,
-        income: null,
-      };
-      this.showGuaranteeDoc = false;
-      this.lastRequestId = '';
-    } catch (error) {
+    this.isSubmitting = true;
+    const response = await axios.post(url, result, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    }).catch((error: unknown) => {
       console.error('Error:', error);
       this.message.error('Hubo un error al crear la solicitud.');
-    }
+      this.isSubmitting = false;
+      return null;
+    });
+
+    if (!response) return;
+
+    this.message.success('Solicitud creada correctamente.');
+    console.log('Respuesta:', response.data);
+
+    this.validateForm.reset();
+    this.documentFiles = {
+      ine: null,
+      birth: null,
+      address: null,
+      guaranteeDoc: null,
+      income: null,
+    };
+
+    this.documentUrls = {
+      ine: null,
+      birth: null,
+      address: null,
+      guaranteeDoc: null,
+      income: null,
+    };
+    this.showGuaranteeDoc = false;
+    this.lastRequestId = '';
+
+    await new Promise((resolve) => setTimeout(resolve, 2000));
+    await this.router.navigate(['/dashboard']);
     console.log('Datos para enviar:', result);
   }
 }

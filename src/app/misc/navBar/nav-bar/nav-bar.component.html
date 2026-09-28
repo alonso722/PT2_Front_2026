@@ -33,7 +33,7 @@
         <span *ngIf="!isCollapsed">Inicio</span>
       </li>
 
-      <li nz-menu-item nzKey="requester-edit" (click)="navigateTo('/requester-edit')" title="Mi información" [class.ant-menu-item-selected]="selectedKey==='requester-edit'">
+      <li nz-menu-item nzKey="requester-edit" (click)="navigateToMyInformation()" title="Mi información" [class.ant-menu-item-selected]="selectedKey==='requester-edit'">
         <i nz-icon nzType="user" nzTheme="outline" style="font-size: 18px; margin-right: 10px;"></i>
         <span *ngIf="!isCollapsed">Mi información</span>
       </li>

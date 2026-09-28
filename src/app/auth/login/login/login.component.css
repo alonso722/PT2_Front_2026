@@ -121,6 +121,25 @@
   margin-bottom: 8px;
 }
 
+.password-input-wrapper {
+  position: relative;
+  width: 100%;
+}
+
+.password-modal-input {
+  padding-right: 42px;
+}
+
+.password-toggle {
+  position: absolute;
+  top: 50%;
+  right: 14px;
+  transform: translateY(-50%);
+  color: #303135;
+  cursor: pointer;
+  z-index: 1;
+}
+
 .modal-input:focus {
   border-color: #53E3ED !important;
   box-shadow: 0 0 5px rgba(244, 58, 73, 0.5);

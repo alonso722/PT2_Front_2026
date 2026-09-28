@@ -79,13 +79,23 @@
               <p>Correo: <strong>{{ recoverForm.value.email }}</strong></p>
 
               <label>Nueva contraseña:</label>
-              <input
-                nz-input
-                type="password"
-                formControlName="newPassword"
-                placeholder="Nueva contraseña"
-                class="modal-input"
-              />
+              <div class="password-input-wrapper">
+                <input
+                  nz-input
+                  [type]="newPasswordVisible ? 'text' : 'password'"
+                  formControlName="newPassword"
+                  placeholder="Nueva contraseña"
+                  class="modal-input password-modal-input"
+                />
+                <i
+                  nz-icon
+                  [nzType]="newPasswordVisible ? 'eye-invisible' : 'eye'"
+                  class="password-toggle"
+                  (click)="toggleNewPasswordVisibility()"
+                  [attr.aria-label]="newPasswordVisible ? 'Ocultar contraseña' : 'Mostrar contraseña'"
+                  [title]="newPasswordVisible ? 'Ocultar contraseña' : 'Mostrar contraseña'"
+                ></i>
+              </div>
               <div
                 *ngIf="confirmForm.get('newPassword')?.invalid && confirmForm.get('newPassword')?.touched"
                 class="error"
@@ -94,13 +104,23 @@
               </div>
 
               <label>Confirmar contraseña:</label>
-              <input
-                nz-input
-                type="password"
-                formControlName="confirmPassword"
-                placeholder="Confirmar contraseña"
-                class="modal-input"
-              />
+              <div class="password-input-wrapper">
+                <input
+                  nz-input
+                  [type]="confirmPasswordVisible ? 'text' : 'password'"
+                  formControlName="confirmPassword"
+                  placeholder="Confirmar contraseña"
+                  class="modal-input password-modal-input"
+                />
+                <i
+                  nz-icon
+                  [nzType]="confirmPasswordVisible ? 'eye-invisible' : 'eye'"
+                  class="password-toggle"
+                  (click)="toggleConfirmPasswordVisibility()"
+                  [attr.aria-label]="confirmPasswordVisible ? 'Ocultar contraseña' : 'Mostrar contraseña'"
+                  [title]="confirmPasswordVisible ? 'Ocultar contraseña' : 'Mostrar contraseña'"
+                ></i>
+              </div>
               <div
                 *ngIf="confirmForm.hasError('passwordMismatch') && confirmForm.touched"
                 class="error"

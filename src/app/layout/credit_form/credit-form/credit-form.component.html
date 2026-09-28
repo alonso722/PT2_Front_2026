@@ -135,8 +135,9 @@
 
       <nz-form-item nz-row class="register-area">
         <nz-form-control [nzSpan]="24">
-          <button nz-button class="btn-dark-rounded custom-register-button" nzType="primary" type="submit">
-            Solicitar
+          <button nz-button class="btn-dark-rounded custom-register-button" nzType="primary" type="submit"
+            [nzLoading]="isSubmitting" [disabled]="isSubmitting">
+            {{ isSubmitting ? 'Enviando solicitud...' : 'Solicitar' }}
           </button>
         </nz-form-control>
       </nz-form-item>

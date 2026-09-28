@@ -52,6 +52,13 @@ export const routes: Routes = [
     canActivate: [AuthGuard],
   },
   {
+    title: 'Mi información',
+    path: 'staff-form',
+    component: StaffSignComponent,
+    data: { mode: 'edit' },
+    canActivate: [AuthGuard],
+  },
+  {
     title: 'Editar informacion',
     path: 'requester-edit',
     component: RequesterEditComponent,

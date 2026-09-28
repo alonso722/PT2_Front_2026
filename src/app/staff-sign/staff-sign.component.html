@@ -2,7 +2,7 @@
 
 <div class="container">
   <div class="form-container">
-    <h2 class="title">Registro de colaborador</h2>
+    <h2 class="title">{{ editMode ? 'Mi información' : 'Registro de colaborador' }}</h2>
 
     <form nz-form [formGroup]="validateForm" (ngSubmit)="submitForm()">
       <nz-form-item>
@@ -80,7 +80,7 @@
         </nz-form-control>
       </nz-form-item>
 
-      <nz-form-item>
+      <nz-form-item *ngIf="!editMode">
         <nz-form-label class="white-label" nzRequired nzFor="password">Contraseña</nz-form-label>
         <nz-form-control style="position: relative;">
           <input
@@ -109,7 +109,7 @@
         </nz-form-control>
       </nz-form-item>
 
-      <nz-form-item>
+      <nz-form-item *ngIf="!editMode">
         <nz-form-label class="white-label" nzRequired nzFor="confirmPassword">Confirmar contraseña</nz-form-label>
         <nz-form-control>
           <input
@@ -130,7 +130,7 @@
         </nz-form-control>
       </nz-form-item>
 
-      <nz-form-item>
+      <nz-form-item *ngIf="!editMode">
         <nz-form-label class="white-label" nzRequired nzFor="rol">Rol</nz-form-label>
         <nz-form-control [nzValidateStatus]="validateForm.controls['rol']">
           <select nz-select formControlName="rol" id="rol">
@@ -142,8 +142,10 @@
 
       <nz-form-item class="register-area">
         <nz-form-control>
-          <button nz-button 
-            class="custom-register-button" nzType="primary" type="submit" block>Registrar colaborador</button>
+          <button nz-button
+            class="custom-register-button" nzType="primary" type="submit" block>
+            {{ editMode ? 'Guardar cambios' : 'Registrar colaborador' }}
+          </button>
         </nz-form-control>
       </nz-form-item>
     </form>

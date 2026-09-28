@@ -55,7 +55,7 @@ export class NavBarComponent implements OnInit {
 
     if (url.startsWith('/dashboard')) {
       this.selectedKey = 'dashboard';
-    } else if (url.startsWith('/requester-edit')) {
+    } else if (url.startsWith('/requester-edit') || url.startsWith('/staff-form')) {
       this.selectedKey = 'requester-edit';
     } else if (url.startsWith('/form')) {
       this.selectedKey = 'form';
@@ -193,5 +193,11 @@ export class NavBarComponent implements OnInit {
 
   navigateTo(route: string): void {
     this.router.navigate([route]);
+  }
+
+  navigateToMyInformation(): void {
+    this.navigateTo(
+      this.userType === 'requester' ? '/requester-edit' : '/staff-form'
+    );
   }
 }

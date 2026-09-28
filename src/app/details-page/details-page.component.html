@@ -259,7 +259,7 @@
     </button>
 
     <div
-      *ngIf="iaResultado !== null"
+      *ngIf="iaResultado !== null || relationEffortRejected"
       style="
         margin-top: 30px;
         text-align: center;
@@ -272,7 +272,7 @@
         box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
       "
     >
-      <p style="font-size: 20px; margin-bottom: 10px">
+      <p *ngIf="iaResultado !== null" style="font-size: 20px; margin-bottom: 10px">
         <strong>Resultado IA: </strong>
         <span [style.color]="iaColor">{{ iaResultado }}%</span>
       </p>
@@ -284,7 +284,7 @@
     <div *ngIf="iaResultado !== null && shapAccumulated.length > 0" class="shap-chart-container">
       <div class="shap-chart-header">
         <div>
-          <h4>Gráfica SHAP</h4>
+          <h4>Gráfica SHAP (Aporte por variable)</h4>
           <p class="shap-base-info">
             <span>Base: {{ shapBase | number:'1.2-2' }}</span>
             <span>Score IA: {{ iaResultado | number:'1.2-2' }}</span>
@@ -293,7 +293,7 @@
       </div>
 
       <div class="shap-row" *ngFor="let item of shapAccumulated">
-        <div class="shap-label">{{ item.feature }}</div>
+        <div class="shap-label">{{ getShapFeatureLabel(item.feature) }}</div>
         <div class="shap-bar-track">
           <div class="shap-baseline" [style.left.%]="getShapOriginPercent()"></div>
           <div

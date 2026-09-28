@@ -1,4 +1,4 @@
-import { Component, ViewEncapsulation  } from '@angular/core';
+import { Component, OnInit, ViewEncapsulation  } from '@angular/core';
 import {
   FormBuilder,
   FormGroup,
@@ -17,6 +17,7 @@ import { NzToolTipModule } from 'ng-zorro-antd/tooltip';
 import { NzPopoverModule } from 'ng-zorro-antd/popover';
 import axios from 'axios';
 import { environment } from '../../environments/environment';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-staff-sign',
@@ -37,10 +38,16 @@ import { environment } from '../../environments/environment';
   templateUrl: './staff-sign.component.html',
   styleUrls: ['./staff-sign.component.css'],
 })
-export class StaffSignComponent {
+export class StaffSignComponent implements OnInit {
   validateForm: FormGroup;
+  editMode = false;
+  userRole: 'analyst' | 'supervisor' | null = null;
 
-  constructor(private fb: FormBuilder, private message: NzMessageService) {
+  constructor(
+    private fb: FormBuilder,
+    private message: NzMessageService,
+    private route: ActivatedRoute
+  ) {
     this.validateForm = this.fb.group(
       {
         firstname: ['', Validators.required],
@@ -57,6 +64,92 @@ export class StaffSignComponent {
       },
       { validators: this.passwordMatchValidator }
     );
+  }
+
+  ngOnInit(): void {
+    this.editMode = this.route.snapshot.data['mode'] === 'edit';
+    if (!this.editMode || typeof window === 'undefined') return;
+
+    this.userRole = this.getUserRoleFromStorage();
+    if (!this.userRole) {
+      this.message.error('No se pudo identificar el rol del usuario.');
+      return;
+    }
+
+    this.validateForm.get('password')?.clearValidators();
+    this.validateForm.get('confirmPassword')?.clearValidators();
+    this.validateForm.get('password')?.updateValueAndValidity();
+    this.validateForm.get('confirmPassword')?.updateValueAndValidity();
+    this.validateForm.patchValue({ rol: this.userRole });
+    void this.fetchStaffProfile();
+  }
+
+  private getUserRoleFromStorage(): 'analyst' | 'supervisor' | null {
+    const rawType = localStorage.getItem('typeUser');
+    if (!rawType) return null;
+
+    try {
+      const parsed = JSON.parse(rawType);
+      const role = parsed?._value || parsed;
+      return role === 'analyst' || role === 'supervisor' ? role : null;
+    } catch {
+      return rawType === 'analyst' || rawType === 'supervisor' ? rawType : null;
+    }
+  }
+
+  private getAccessToken(): string {
+    const rawToken = localStorage.getItem('accessToken');
+    if (!rawToken) return '';
+
+    try {
+      const parsed = JSON.parse(rawToken);
+      return parsed?._value || parsed || '';
+    } catch {
+      return rawToken;
+    }
+  }
+
+  private async fetchStaffProfile(): Promise<void> {
+    if (!this.userRole) return;
+
+    try {
+      const endpoint = `${environment.STAFF_SERVICE_URL}/${this.userRole}`;
+      const response = await axios.get(endpoint, {
+        headers: { Authorization: `Bearer ${this.getAccessToken()}` },
+      });
+      const profile = response.data?.data || response.data || {};
+      const birthdate = this.formatBirthdate(profile.birthdate);
+      const editableProfile = { ...profile };
+      delete editableProfile.password;
+      delete editableProfile.confirmPassword;
+      this.validateForm.patchValue({
+        ...editableProfile,
+        password: '',
+        confirmPassword: '',
+        birthdate,
+        rol: this.userRole,
+      });
+    } catch (error) {
+      this.message.error('No se pudo cargar la información del colaborador.');
+      console.error('Error al obtener perfil de colaborador:', error);
+    }
+  }
+
+  private formatBirthdate(value: unknown): string {
+    if (!value) return '';
+    if (typeof value === 'string' && /^\d{2}\/\d{2}\/\d{4}$/.test(value)) {
+      return value;
+    }
+    if (typeof value === 'string') {
+      const isoDate = /^(\d{4})-(\d{2})-(\d{2})/.exec(value);
+      if (isoDate) return `${isoDate[3]}/${isoDate[2]}/${isoDate[1]}`;
+    }
+
+    const date = new Date(value as string | number | Date);
+    if (Number.isNaN(date.getTime())) return '';
+    const day = String(date.getDate()).padStart(2, '0');
+    const month = String(date.getMonth() + 1).padStart(2, '0');
+    return `${day}/${month}/${date.getFullYear()}`;
   }
 
   curpValidator(control: AbstractControl) {
@@ -145,37 +238,37 @@ export class StaffSignComponent {
 
     const formValue = { ...this.validateForm.value };
     delete formValue.confirmPassword;
+    if (this.editMode) {
+      delete formValue.rol;
+      delete formValue.password;
+    }
 
     const [day, month, year] = formValue.birthdate.split('/').map(Number);
     formValue.birthdate = new Date(year, month - 1, day);
 
-    const url =
-      formValue.rol === 'supervisor'
-        ? `${environment.STAFF_SERVICE_URL}/supervisor`
-        : `${environment.STAFF_SERVICE_URL}/analyst`;
+    const role = this.editMode ? this.userRole : formValue.rol;
+    const url = `${environment.STAFF_SERVICE_URL}/${role}`;
 
     // 🔐 Obtener Bearer Token
-    const rawToken = localStorage.getItem('accessToken');
-    let token = '';
-
-    if (rawToken) {
-      try {
-        const parsed = JSON.parse(rawToken);
-        token = parsed._value || '';
-      } catch {
-        token = rawToken;
-      }
-    }
+    const token = this.getAccessToken();
 
     try {
       console.log('Enviando datos:', url);
-      const response = await axios.post(url, formValue, {
+      const response = this.editMode
+        ? await axios.patch(url, formValue, {
+            headers: { Authorization: `Bearer ${token}` },
+          })
+        : await axios.post(url, formValue, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
       });
-      this.message.success('Registro completado correctamente');
-      this.validateForm.reset();
+      this.message.success(
+        this.editMode
+          ? 'Información actualizada correctamente'
+          : 'Registro completado correctamente'
+      );
+      if (!this.editMode) this.validateForm.reset();
       console.log('Respuesta:', response.data);
     } catch (error) {
       this.message.error('Error al registrar al colaborador');
