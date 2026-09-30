@@ -1,7 +1,7 @@
 <nz-spin [nzSpinning]="loading">
   <div *ngIf="!loading">
     <div class="custom-container">
-      <div>
+      <div class="details-info">
         <!-- Info general de la solicitud -->
         <div class="section">
           <p>
@@ -180,7 +180,7 @@
       </div>
 
       <!-- Chat -->
-      <div>
+      <div class="details-chat">
         <app-chat
           [userType]="userTypeFromStorage"
           [chat]="solicitud?.chat"

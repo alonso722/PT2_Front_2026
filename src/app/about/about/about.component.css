@@ -1,6 +1,7 @@
 
 .outer-container {
     background-color: #53E3ED ;
+  min-height: calc(100vh - 44px);
 }
 
 .nz-collapse,
@@ -28,7 +29,7 @@
   }
   
   .custom-card {
-    width: 900px;
+    width: min(900px, 100%);
     background: #303135;
     border-radius: 5px;
     color: aliceblue;
@@ -42,3 +43,13 @@
       background-color: black !important;
       color: white; 
   }
+
+@media (max-width: 600px) {
+  .custom-container {
+    padding: 16px 12px;
+  }
+
+  .custom-card p {
+    overflow-wrap: anywhere;
+  }
+}

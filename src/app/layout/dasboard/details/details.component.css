@@ -8,6 +8,19 @@
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
 }
 
+.details-info,
+.details-chat {
+  min-width: 0;
+}
+
+.details-info {
+  flex: 1 1 0;
+}
+
+.details-chat {
+  flex: 0 1 400px;
+}
+
 .section {
   width: 100%;
   color: white;
@@ -72,4 +85,23 @@ select:focus {
   background-color: #53E3ED;
   margin-right: 8px;
   vertical-align: middle;
+}
+
+@media (max-width: 600px) {
+  .custom-container {
+    flex-direction: column;
+    gap: 16px;
+    padding: 16px;
+  }
+
+  .details-info,
+  .details-chat {
+    width: 100%;
+    flex: 0 0 auto;
+  }
+
+  .section p {
+    margin-right: 0;
+    overflow-wrap: anywhere;
+  }
 }

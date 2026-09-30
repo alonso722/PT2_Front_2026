@@ -23,10 +23,9 @@ export const routes: Routes = [
     canActivate: [AuthGuard],
   },
   {
-    title: 'Dasboard',
+    title: 'Acerca del proyecto',
     path: 'about',
     component: AboutComponent,
-    canActivate: [AuthGuard],
   },
   {
     title: 'Dasboard',

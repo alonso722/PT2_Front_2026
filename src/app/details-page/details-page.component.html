@@ -42,7 +42,7 @@
 
     <section>
       <h3>Documentos</h3>
-      <div style="display: flex; gap: 24px">
+      <div class="documents-list">
         <div *ngIf="solicitud?.url_domicile"
           style="display: flex; flex-direction: column; align-items: center">
           <img src="assets/pdf.png" alt="PDF" width="40" height="40"
@@ -172,7 +172,7 @@
 
       <p>
         <span class="bullet-badge"></span>
-        <strong>Mensualidad estimada del crédito]:</strong> ${{
+        <strong>Mensualidad estimada del crédito:</strong> ${{
           solicitud.amount / solicitud.loan_term | number : "1.2-2"
         }}
       </p>

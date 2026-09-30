@@ -94,7 +94,9 @@
 /* Responsivo */
 @media (max-width: 480px) {
   .chat-container {
+    width: 100%;
     max-width: 100%;
+    box-sizing: border-box;
     margin-left: 0;
     height: 400px;
     border-radius: 0;

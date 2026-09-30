@@ -102,6 +102,59 @@ button[nz-button] {
     grid-template-columns: 1fr;
   }
 
+  .container {
+    margin-left: 80px;
+    padding: 80px 12px 24px;
+    min-height: 100vh;
+  }
+
+  .form-container {
+    min-width: 0;
+    padding: 20px 14px;
+  }
+
+  .title {
+    font-size: 21px;
+    margin-bottom: 22px;
+  }
+
+  .credit-data-section,
+  .guarantee-data-section,
+  .document-columns {
+    grid-template-columns: minmax(0, 1fr);
+    width: 100%;
+    max-width: 100%;
+  }
+
+  .guarantee-data-section {
+    gap: 16px;
+  }
+
+  .guarantee-data-section select,
+  .credit-data-section select,
+  .credit-data-section nz-input-number,
+  .guarantee-data-section nz-input-number {
+    width: 100%;
+    min-width: 0;
+    max-width: 100%;
+  }
+
+  .upload-box,
+  .upload-row,
+  .upload-row input[type="file"] {
+    min-width: 0;
+    max-width: 100%;
+  }
+
+  .upload-row {
+    flex-wrap: wrap;
+  }
+
+  .custom-register-button {
+    display: block;
+    margin: 0 auto;
+  }
+
   .register-area {
     margin-top: 16px;
   }
@@ -349,4 +402,54 @@ select option {
 .guarantee-required-label::after {
   content: ' *';
   color: #ff4d4f; /* red asterisk */
+}
+
+@media (max-width: 600px) {
+  .form-container,
+  .credit-data-section,
+  .guarantee-data-section,
+  .document-columns,
+  .credit-data-section > nz-form-item,
+  .guarantee-data-section > nz-form-item,
+  .credit-data-section nz-form-control,
+  .guarantee-data-section nz-form-control {
+    width: 100%;
+    min-width: 0;
+    max-width: 100%;
+  }
+
+  .credit-data-section,
+  .guarantee-data-section,
+  .document-columns {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .credit-data-section select,
+  .guarantee-data-section select,
+  .credit-data-section nz-input-number,
+  .guarantee-data-section nz-input-number {
+    width: 100%;
+    min-width: 0;
+    max-width: 100%;
+  }
+
+  .upload-row {
+    flex-wrap: wrap;
+  }
+
+  .upload-row input[type="file"] {
+    width: 100%;
+    min-width: 0;
+    max-width: 100%;
+  }
+
+  .file-info {
+    min-width: 0;
+    max-width: 100%;
+    margin-left: 0;
+  }
+
+  .custom-register-button {
+    margin-left: 0;
+  }
 }
